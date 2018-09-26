@@ -2,30 +2,35 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AppComponent } from './app.component';
+import { AddUserComponent } from './user/add-user.component';
 import { UserComponent } from './user/user.component';
-import { HomeComponent } from './home/home.component';
+import { BuyerComponent } from './buyer/buyer.component';
+import { ListBuyerComponent } from './buyer/list-buyer.component';
+
 import { AppRoutingModule } from './app.routing.module';
+
 import {UserService} from './user/user.service';
+
 import {HttpClientModule} from "@angular/common/http";
-import {AddUserComponent} from './user/add-user.component';
+import {BuyerService} from "./buyer/buyer.service";
+
 
 @NgModule({
   declarations: [
-    AppComponent,
-    UserComponent,
-    AddUserComponent,
-    HomeComponent
+      AppComponent,
+      UserComponent,
+      BuyerComponent,
+      ListBuyerComponent,
+      AddUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule,
-    BrowserAnimationsModule
+    FormsModule
   ],
-  providers: [UserService],
+  providers: [UserService, BuyerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

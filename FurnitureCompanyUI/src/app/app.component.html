@@ -1,16 +1,23 @@
-<ul>
-  <li><a routerLink="/AddBuyer">Add Buyer</a></li>
-  <li><a routerLink="/add">Add Furniture</a></li>
-  <li><a routerLink="/add">Purchase Furniture</a></li>
+<div class="container-fluid">
+  <div class="col-md-offset-1">
+    <h1>
+      Welcome to {{title}}!
+    </h1>
+  </div>
 
-  <li><a routerLink="/add">Add Prize</a></li>
-  <li><a routerLink="/add">Add Promotional Period</a></li>
-  <li><a routerLink="/add">Raffle</a></li>
+  <a routerLink="/users">List users</a>
+  <a style="margin-left:10px"routerLink="/add">Add user</a>
+  <a style="margin-left:20px" routerLink="/">Add Buyer</a>
+  <a style="margin-left:20px" routerLink="/ListBuyer">List Buyers</a>
+  <a style="margin-left:30px" routerLink="/">Add Furniture</a>
+  <a style="margin-left:40px" routerLink="/">Purchase Furniture</a>
 
-  <li><a routerLink="/add">View Winners</a></li>
-</ul>
+  <a style="margin-left:50px" routerLink="/">Add Prize</a>
+  <a style="margin-left:60px" routerLink="/">Add Promotional Period</a>
+  <a style="margin-left:70px" routerLink="/">Raffle</a>
 
-<app-home></app-home>
-<router-outlet></router-outlet>
+  <a style="margin-left:80px" routerLink="/">View Winners</a>
 
-
+  <br/>
+  <router-outlet></router-outlet>
+</div>

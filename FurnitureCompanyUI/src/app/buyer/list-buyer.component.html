@@ -1,0 +1,25 @@
+<div class="col-md-6">
+    <h2> Buyers </h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="hidden">buyerId</th>
+            <th>buyerName</th>
+            <th>buyerAddress</th>
+            <th>buyerPhone</th>
+            <th>buyerPersonalId</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let buyer of buyers">
+            <td class="hidden">{{buyer.buyerId}}</td>
+            <td>{{buyer.buyerName}}</td>
+            <td>{{buyer.buyerAddress}}</td>
+            <td>{{buyer.buyerPhone}}</td>
+            <td>{{buyer.buyerPersonalId}}</td>
+            <td><button class="btn btn-danger" (click)="deleteBuyer(buyer)"> Delete User</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

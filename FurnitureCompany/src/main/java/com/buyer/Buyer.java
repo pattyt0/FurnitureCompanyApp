@@ -19,6 +19,7 @@ public class Buyer {
     @Column(name="buyer_personal_id")
     private String buyerPersonalId;
 
+    public Buyer() {}
     public Buyer(Long buyerId) {}
 
     public Long getBuyerId() {
