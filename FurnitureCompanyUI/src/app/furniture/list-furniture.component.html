@@ -1,0 +1,21 @@
+<div class="col-md-6">
+    <h2> Furnitures </h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="hidden">furnitureId</th>
+            <th>Furniture Name</th>
+            <th>Furniture Code</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let furniture of furniture">
+            <td class="hidden">{{furniture.furnitureId}}</td>
+            <td>{{furniture.furnitureCode}}</td>
+            <td>{{furniture.furnitureName}}</td>
+            <td><button class="btn btn-danger" (click)="deleteFurniture(furniture)"> Delete Furniture</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>

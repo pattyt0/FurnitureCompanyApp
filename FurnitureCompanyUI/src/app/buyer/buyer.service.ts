@@ -14,7 +14,6 @@ export class BuyerService {
     constructor(private http:HttpClient) {}
 
     private buyerBaseUrl = 'http://localhost:8080';
-    //private userUrl = '/api';
 
     public getBuyers() {
         return this.http.get<Buyer[]>(this.buyerBaseUrl+ "/ListBuyer");
@@ -23,9 +22,8 @@ export class BuyerService {
     public deleteBuyer(buyer) {
         return this.http.delete(this.buyerBaseUrl + "/DeleteBuyer/"+ buyer.id);
     }
-    //
-    // public createUser(user) {
-    //     return this.http.post<User>(this.userUrl, user);
-    // }
 
+    public createBuyer(buyer) {
+        return this.http.post<Buyer>(this.buyerBaseUrl + "/AddBuyer", buyer);
+    }
 }

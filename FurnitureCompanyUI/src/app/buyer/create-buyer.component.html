@@ -1,0 +1,26 @@
+<div class="col-md-6">
+  <h2 class="text-center">Add Buyer</h2>
+  <form>
+    <div class="form-group">
+      <label for="buyerName">Buyer Name:</label>
+      <input [(ngModel)]="buyer.buyerName" placeholder="Full Name" name="fullName" class="form-control" id="fullName">
+    </div>
+
+    <div class="form-group">
+      <label for="buyerAddress">Address:</label>
+      <input [(ngModel)]="buyer.buyerAddress" placeholder="Address" name="buyerAddress" class="form-control" id="buyerAddress">
+    </div>
+
+    <div class="form-group">
+      <label for="buyerPhone">Phone:</label>
+      <input [(ngModel)]="buyer.buyerPhone" placeholder="Phone" name="buyerPhone" class="form-control" id="buyerPhone">
+    </div>
+
+    <div class="form-group">
+      <label for="buyerPersonalId">Personal Identification:</label>
+      <input [(ngModel)]="buyer.buyerPersonalId" placeholder="CI" name="buyerPersonalId" class="form-control" id="buyerPersonalId">
+    </div>
+
+    <button class="btn btn-success" (click)="createBuyer()">Create</button>
+  </form>
+</div>
