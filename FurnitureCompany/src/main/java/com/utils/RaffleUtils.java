@@ -12,11 +12,15 @@ public class RaffleUtils {
 
     public static String generateRaffleCode(Purchase purchase) {
         //TODO: implement logic to get a unique code for every chance
+        String uniqueCode = StringUtils.EMPTY;
+        uniqueCode.concat(purchase.getBuyer().getBuyerName());
+        uniqueCode.concat(purchase.getFurniture().getFurnitureId().toString());
+        uniqueCode.concat(purchase.getPurchaseDate().toString());
         return StringUtils.EMPTY;
     }
 
     public static List<BuyerChance> raffleWinnersPerPrize(List<BuyerChance> chancesPerPromotionalPeriod, List<Prize> prizes) {
-        //TODO: implement logic for raffle prize
+        //TODO: logic for raffle prize
         List<BuyerChance> results = new ArrayList<>();
         BuyerChance chance = null;
         for (Prize prize:prizes) {

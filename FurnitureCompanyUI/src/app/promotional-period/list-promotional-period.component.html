@@ -1,0 +1,22 @@
+<div class="col-md-6">
+    <h2> Promotional Period </h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="hidden">promotional</th>
+            <th>Promotional Period Name</th>
+            <th>Promotional Period Start Date</th>
+            <th>Promotional Period End Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let promotionalPeriod of promotionalPeriods">
+            <td class="hidden">{{promotionalPeriod.promotionalPeriodId}}</td>
+            <td>{{promotionalPeriod.promotionalPeriodName}}</td>
+            <td>{{promotionalPeriod.promotionalPeriodStartDate}}</td>
+            <td>{{promotionalPeriod.promotionalPeriodEndDate}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

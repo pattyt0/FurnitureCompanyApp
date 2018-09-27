@@ -5,7 +5,6 @@ import com.buyer.Buyer;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Table(name = "purchase")
@@ -43,12 +42,12 @@ public class Purchase {
         this.buyer = buyer;
     }
 
-    public Furniture getFurnitureId() {
-        return furnitureId;
+    public Furniture getFurniture() {
+        return furniture;
     }
 
-    public void setFurnitureId(Furniture furnitureId) {
-        this.furnitureId = furnitureId;
+    public void setFurniture(Furniture furniture) {
+        this.furniture = furniture;
     }
 
     @Id
@@ -66,7 +65,7 @@ public class Purchase {
 
     @ManyToOne
     @JoinColumn(name = "furniture_id")
-    private Furniture furnitureId;
+    private Furniture furniture;
 
     public Purchase() {}
 

@@ -20,6 +20,8 @@ public class Prize implements Serializable, Comparable<Prize> {
     @Column(name="prize_quantity")
     private String prizeQuantity;
 
+    public Prize(){}
+
     public Prize(Long prizeId){}
 
     public Long getPrizeId() {

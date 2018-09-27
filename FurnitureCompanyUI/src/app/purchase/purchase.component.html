@@ -1,0 +1,43 @@
+<div class="col-md-6">
+  <h2 class="text-center">Purchase Furniture</h2>
+  <form>
+    <div class="form-group">
+      <label for="buyer">Buyer:</label>
+      <select class="form-control" [(ngModel)]="Buyer" (ngModelChange)="selectchange($event)" name="buyerName" placeholder="Select Buyer">
+        <option *ngFor="let buyer of buyers"
+                [ngValue]="selectedBuyer">
+          {{ buyer.buyerName }}
+        </option>
+      </select>
+
+      <table id="tblCustomers" class="table table-striped">
+        <thead>
+        <tr>
+          <th class="hidden">furniture</th>
+          <th>Furniture Name</th>
+          <th>Furniture Code</th>
+          <th>Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let furniture of furniture">
+          <td class="hidden">{{furniture.promotionalPeriod}}</td>
+          <td>{{furniture.furnitureCode}}</td>
+          <td>{{furniture.furnitureName}}</td>
+          <td> <input placeholder="Quantity" name="quantity" class="form-control" id="quantity"></td>
+          <td>
+            <select id="ddlYesNo">
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <button class="btn btn-success" (click)="purchaseFurniture()">Purchase</button>
+  </form>
+</div>

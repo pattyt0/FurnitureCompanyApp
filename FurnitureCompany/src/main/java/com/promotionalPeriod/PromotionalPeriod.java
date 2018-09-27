@@ -1,9 +1,9 @@
 package com.promotionalPeriod;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
 
 @Entity
 @Table(name = "promotional_period")
@@ -16,11 +16,16 @@ public class PromotionalPeriod implements Serializable, Comparable<PromotionalPe
     private Long promotionalPeriodId;
     @Column(name="promotional_period_name")
     private String promotionalPeriodName;
-    @Column(name="promotional_period_start_date")
-    private Instant promotionalPeriodStartDate;
-    @Column(name="promotional_period_end_date")
-    private Instant promotionalPeriodEndDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column(name="promotional_period_start_date")
+    private String promotionalPeriodStartDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @Column(name="promotional_period_end_date")
+    private String promotionalPeriodEndDate;
+
+    public PromotionalPeriod() { }
     public PromotionalPeriod(Long promotionalPeriodId) {
         this.promotionalPeriodId = promotionalPeriodId;
     }
@@ -41,19 +46,19 @@ public class PromotionalPeriod implements Serializable, Comparable<PromotionalPe
         this.promotionalPeriodName = promotionalPeriodName;
     }
 
-    public Instant getPromotionalPeriodStartDate() {
+    public String getPromotionalPeriodStartDate() {
         return promotionalPeriodStartDate;
     }
 
-    public void setPromotionalPeriodStartDate(Instant promotionalPeriodStartDate) {
+    public void setPromotionalPeriodStartDate(String promotionalPeriodStartDate) {
         this.promotionalPeriodStartDate = promotionalPeriodStartDate;
     }
 
-    public Instant getPromotionalPeriodEndDate() {
+    public String getPromotionalPeriodEndDate() {
         return promotionalPeriodEndDate;
     }
 
-    public void setPromotionalPeriodEndDate(Instant promotionalPeriodEndDate) {
+    public void setPromotionalPeriodEndDate(String promotionalPeriodEndDate) {
         this.promotionalPeriodEndDate = promotionalPeriodEndDate;
     }
 
