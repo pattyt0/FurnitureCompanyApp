@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {NgbDate, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
 
 import { PromotionalPeriod } from '../models/promotional-period.model';
 import { PromotionalPeriodService } from './promotional-period.service';
@@ -22,14 +21,4 @@ export class CreatePromotionalPeriodComponent implements OnInit {
             })
     }
 
-    onDateSelection(date: NgbDate) {
-        if (!this.fromDate && !this.toDate) {
-            this.fromDate = date;
-        } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
-            this.toDate = date;
-        } else {
-            this.toDate = null;
-            this.fromDate = date;
-        }
-    }
 }

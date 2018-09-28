@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import * as $ from "jquery";
 
 import { Purchase } from '../models/purchase.model';
 import { PurchaseService } from './purchase.service';
-import {Buyer} from "../models/buyer.model";
 
 @Component({
   templateUrl: './purchase.component.html',
@@ -99,29 +97,29 @@ export class PurchaseComponent implements OnInit {
       this.purchaseService.purchaseFurniture(this.purchaseList)
           .subscribe( data => {
               var furnitureList = [];
-              $('[id*=tblCustomers] tr:not(:has(th))').each(function (index, item) {
-                  var furnitureId = this.promotionalPeriod[index].furnitureId;
-                  var quantity = this.promotionalPeriod[index].quantity;
-                  var selected = $(item).find('[id*=ddlYesNo] option:selected').val();
-                  if(selected === 'yes'){
-                      var furniture={};
-                      furniture["furnitureId"] = furnitureId;
-                      furniture["quantity"] = quantity;
-                      furnitureList.push(furniture);
-                  }
-              });
-              let purchase: Purchase = new Purchase();
-              let purchases: Purchase[] = [];
-              for(let i=0; i<furnitureList.length; i++){
-                  purchase.quantity = furnitureList[i].quantity;
-                  purchase.purchaseDate = Date.now().toString();
-                  purchase.buyer = new Buyer();
-                  purchase.buyer.buyerId = this.selectedBuyer.toString();
-                  purchase.furniture = furnitureList[i];
-
-                  purchases.push(purchase)
-              }
-              this.purchaseList = purchases;
+              // $('[id*=tblCustomers] tr:not(:has(th))').each(function (index, item) {
+              //     var furnitureId = this.item[index].furnitureId;
+              //     var quantity = this.item[index].quantity;
+              //     var selected = $(item).find('[id*=ddlYesNo] option:selected').val();
+              //     if(selected === 'yes'){
+              //         var furniture={};
+              //         furniture["furnitureId"] = furnitureId;
+              //         furniture["quantity"] = quantity;
+              //         furnitureList.push(furniture);
+              //     }
+              // });
+              // let purchase: Purchase = new Purchase();
+              // let purchases: Purchase[] = [];
+              // for(let i=0; i<furnitureList.length; i++){
+              //     purchase.quantity = furnitureList[i].quantity;
+              //     purchase.purchaseDate = Date.now().toString();
+              //     purchase.buyer = new Buyer();
+              //     purchase.buyer.buyerId = this.selectedBuyer.toString();
+              //     purchase.furniture = furnitureList[i];
+              //
+              //     purchases.push(purchase)
+              // }
+              // this.purchaseList = purchases;
               alert("Furniture Purchased Successfully!!!");
           })
   }
