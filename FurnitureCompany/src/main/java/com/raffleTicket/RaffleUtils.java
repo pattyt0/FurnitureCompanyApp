@@ -1,8 +1,7 @@
-package com.utils;
+package com.raffleTicket;
 
 import com.prize.Prize;
 import com.purchase.Purchase;
-import com.raffle.BuyerChance;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -13,16 +12,16 @@ public class RaffleUtils {
     public static String generateRaffleCode(Purchase purchase) {
         //TODO: implement logic to get a unique code for every chance
         String uniqueCode = StringUtils.EMPTY;
-        uniqueCode.concat(purchase.getBuyer().getBuyerName());
+        uniqueCode.concat(purchase.getBuyer().getName());
         uniqueCode.concat(purchase.getFurniture().getFurnitureId().toString());
         uniqueCode.concat(purchase.getPurchaseDate().toString());
         return StringUtils.EMPTY;
     }
 
-    public static List<BuyerChance> raffleWinnersPerPrize(List<BuyerChance> chancesPerPromotionalPeriod, List<Prize> prizes) {
-        //TODO: logic for raffle prize
-        List<BuyerChance> results = new ArrayList<>();
-        BuyerChance chance = null;
+    public static List<RaffleTicket> raffleWinnersPerPrize(List<RaffleTicket> chancesPerPromotionalPeriod, List<Prize> prizes) {
+        //TODO: logic for raffleTicket prize
+        List<RaffleTicket> results = new ArrayList<>();
+        RaffleTicket chance = null;
         for (Prize prize:prizes) {
             int winnerLocation = (int) getRandomWinnerBetweenRange(0, chancesPerPromotionalPeriod.size()-1);
             chance = chancesPerPromotionalPeriod.get(winnerLocation);

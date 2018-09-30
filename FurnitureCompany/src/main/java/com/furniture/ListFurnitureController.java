@@ -24,8 +24,8 @@ public class ListFurnitureController {
     @RequestMapping(value="/FurnitureTest", method= RequestMethod.GET)
     public ResponseEntity<Furniture> listFurnituresTest() {
         Furniture furniture = new Furniture();
-        furniture.setFurnitureName("Office Desk");
-        furniture.setFurnitureCode("OD1000");
+        furniture.setName("Office Desk");
+        furniture.setCode("OD1000");
         furniture.setFurnitureId(new Long(1000));
         return new ResponseEntity<Furniture>(furniture, HttpStatus.OK);
     }

@@ -10,14 +10,11 @@ public class Buyer {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "buyer_gen")
     @Column(name="buyer_id")
     private Long buyerId;
-    @Column(name="buyer_name")
-    private String buyerName;
-    @Column(name="buyer_address")
-    private String buyerAddress;
-    @Column(name="buyer_phone")
-    private String buyerPhone;
-    @Column(name="buyer_personal_id")
-    private String buyerPersonalId;
+    private String name;
+    private String address;
+    private String phone;
+    @Column(name="personal_id")
+    private String personalId;
 
     public Buyer() {}
     public Buyer(Long buyerId) {}
@@ -30,35 +27,35 @@ public class Buyer {
         this.buyerId = buyerId;
     }
 
-    public String getBuyerName() {
-        return buyerName;
+    public String getName() {
+        return name;
     }
 
-    public void setBuyerName(String buyerName) {
-        this.buyerName = buyerName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getBuyerAddress() {
-        return buyerAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setBuyerAddress(String buyerAddress) {
-        this.buyerAddress = buyerAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getBuyerPhone() {
-        return buyerPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setBuyerPhone(String buyerPhone) {
-        this.buyerPhone = buyerPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getBuyerPersonalId() {
-        return buyerPersonalId;
+    public String getPersonalId() {
+        return personalId;
     }
 
-    public void setBuyerPersonalId(String buyerPersonalId) {
-        this.buyerPersonalId = buyerPersonalId;
+    public void setPersonalId(String personalId) {
+        this.personalId = personalId;
     }
 }

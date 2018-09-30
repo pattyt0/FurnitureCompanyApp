@@ -2,13 +2,13 @@
     <h2 class="text-center">Add Furniture</h2>
     <form>
         <div class="form-group">
-            <label for="furnitureName">Furniture Name:</label>
-            <input [(ngModel)]="furniture.furnitureName" placeholder="Furniture Name" name="furnitureName" class="form-control" id="furnitureName">
+            <label for="name">Furniture Name:</label>
+            <input [(ngModel)]="furniture.name" placeholder="Furniture Name" name="name" class="form-control" id="name">
         </div>
 
         <div class="form-group">
-            <label for="furnitureCode">Furniture Code:</label>
-            <input [(ngModel)]="furniture.furnitureCode" placeholder="Furniture Code" name="furnitureCode" class="form-control" id="furnitureCode">
+            <label for="code">Furniture Code:</label>
+            <input [(ngModel)]="furniture.code" placeholder="Furniture Code" name="code" class="form-control" id="code">
         </div>
 
         <button class="btn btn-success" (click)="createFurniture()">Create</button>

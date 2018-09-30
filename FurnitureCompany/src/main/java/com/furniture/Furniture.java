@@ -15,17 +15,15 @@ public class Furniture implements Serializable, Comparable<Furniture> {
     private Long furnitureId;
 
     @Size(min = 3, max = 500)
-    @Column(name="furniture_name")
-    private String furnitureName;
+    private String name;
 
     @Size(min = 3, max = 100)
-    @Column(name="furniture_code")
-    private String furnitureCode;
+    private String code;
 
     public Furniture(String furnitureId, String furnitureName, String furnitureCode) {
         this.setFurnitureId(Long.getLong(furnitureId));
-        this.setFurnitureName(furnitureName);
-        this.setFurnitureCode(furnitureCode);
+        this.setName(furnitureName);
+        this.setCode(furnitureCode);
     }
 
     public Furniture(){}
@@ -38,20 +36,20 @@ public class Furniture implements Serializable, Comparable<Furniture> {
         this.furnitureId = furnitureId;
     }
 
-    public String getFurnitureName() {
-        return furnitureName;
+    public String getName() {
+        return name;
     }
 
-    public void setFurnitureName(String furnitureName) {
-        this.furnitureName = furnitureName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFurnitureCode() {
-        return furnitureCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setFurnitureCode(String furnitureCode) {
-        this.furnitureCode = furnitureCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -63,7 +61,7 @@ public class Furniture implements Serializable, Comparable<Furniture> {
     public boolean equals(Object other) {
         if (other == null || getClass() != other.getClass()) return false;
         Furniture furniture = (Furniture) other;
-        return this.getFurnitureId() == furniture.getFurnitureId() && this.getFurnitureName().equals(furniture.getFurnitureName())
-                && this.getFurnitureCode().equals(furniture.getFurnitureCode());
+        return this.getFurnitureId() == furniture.getFurnitureId() && this.getName().equals(furniture.getName())
+                && this.getCode().equals(furniture.getCode());
     }
 }

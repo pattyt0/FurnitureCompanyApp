@@ -5,20 +5,20 @@
         <thead>
         <tr>
             <th class="hidden">buyerId</th>
-            <th>buyerName</th>
-            <th>buyerAddress</th>
-            <th>buyerPhone</th>
-            <th>buyerPersonalId</th>
+            <th>name</th>
+            <th>address</th>
+            <th>phone</th>
+            <th>personalId</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let buyer of buyers">
-            <td class="hidden">{{buyer.buyerId}}</td>
-            <td>{{buyer.buyerName}}</td>
-            <td>{{buyer.buyerAddress}}</td>
-            <td>{{buyer.buyerPhone}}</td>
-            <td>{{buyer.buyerPersonalId}}</td>
-            <td><button class="btn btn-danger" (click)="deleteBuyer(buyer)"> Delete Buyer</button></td>
+        <tr *ngFor="let purchase of buyers">
+            <td class="hidden">{{purchase.buyerId}}</td>
+            <td>{{purchase.name}}</td>
+            <td>{{purchase.address}}</td>
+            <td>{{purchase.phone}}</td>
+            <td>{{purchase.personalId}}</td>
+            <td><button class="btn btn-danger" (click)="deleteBuyer(purchase)"> Delete Buyer</button></td>
         </tr>
         </tbody>
     </table>

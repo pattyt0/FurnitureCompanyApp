@@ -5,4 +5,4 @@
 
 FEATURES
 ========
-- As a buyer I can register mi purchase, take into account I can buy many furnitures of same model.
+- As a purchase I can register mi purchase, take into account I can buy many furnitures of same model.

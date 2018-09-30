@@ -1,4 +1,4 @@
-package com.raffle;
+package com.raffleTicket;
 
 import com.buyer.Buyer;
 import com.prize.Prize;
@@ -7,14 +7,14 @@ import com.promotionalPeriod.PromotionalPeriod;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "raffle")
-@SequenceGenerator(name = "raffle_gen", sequenceName = "raffle_gen",  initialValue = 1000)
-public class Raffle {
+@Table(name = "raffle_ticket")
+@SequenceGenerator(name = "raffle_ticket_gen", sequenceName = "raffle_ticket_gen",  initialValue = 1000)
+public class RaffleTicket {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "raffle_gen")
-    @Column(name="raffle_id")
-    private Long drawId;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "raffle_ticket_gen")
+    @Column(name="raffle_ticket_id")
+    private Long raffleTicketId;
 
     @ManyToOne
     @JoinColumn(name = "promotional_period_id")
@@ -28,16 +28,16 @@ public class Raffle {
     @JoinColumn(name = "prize_id")
     private Prize prize;
 
-    public Raffle() {
+    public RaffleTicket() {
 
     }
 
-    public Long getDrawId() {
-        return drawId;
+    public Long getRaffleTicketId() {
+        return raffleTicketId;
     }
 
-    public void setDrawId(Long drawId) {
-        this.drawId = drawId;
+    public void setRaffleTicketId(Long raffleTicketId) {
+        this.raffleTicketId = raffleTicketId;
     }
 
     public PromotionalPeriod getPromotionalPeriod() {

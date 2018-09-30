@@ -2,11 +2,11 @@
   <h2 class="text-center">Purchase Furniture</h2>
   <form>
     <div class="form-group">
-      <label for="buyer">Buyer:</label>
-      <select class="form-control" [(ngModel)]="Buyer" (ngModelChange)="selectchange($event)" name="buyerName" placeholder="Select Buyer">
-        <option *ngFor="let buyer of buyers"
+      <label for="purchase">Buyer:</label>
+      <select class="form-control" [(ngModel)]="Buyer" (ngModelChange)="selectchange($event)" name="name" placeholder="Select Buyer">
+        <option *ngFor="let purchase of buyers"
                 [ngValue]="selectedBuyer">
-          {{ buyer.buyerName }}
+          {{ purchase.name }}
         </option>
       </select>
 
@@ -22,8 +22,8 @@
         <tbody>
         <tr *ngFor="let furniture of furniture">
           <td class="hidden">{{furniture.promotionalPeriod}}</td>
-          <td>{{furniture.furnitureCode}}</td>
-          <td>{{furniture.furnitureName}}</td>
+          <td>{{furniture.code}}</td>
+          <td>{{furniture.name}}</td>
           <td> <input placeholder="Quantity" name="quantity" class="form-control" id="quantity"></td>
           <td>
             <select id="ddlYesNo">

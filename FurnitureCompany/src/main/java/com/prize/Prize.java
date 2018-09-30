@@ -1,7 +1,6 @@
 package com.prize;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -14,11 +13,9 @@ public class Prize implements Serializable, Comparable<Prize> {
     @Column(name="prize_id")
     private Long prizeId;
 
-    @Column(name="prize_name")
-    private String prizeName;
+    private String name;
 
-    @Column(name="prize_quantity")
-    private String prizeQuantity;
+    private String quantity;
 
     public Prize(){}
 
@@ -32,20 +29,20 @@ public class Prize implements Serializable, Comparable<Prize> {
         this.prizeId = prizeId;
     }
 
-    public String getPrizeName() {
-        return prizeName;
+    public String getName() {
+        return name;
     }
 
-    public void setPrizeName(String prizeName) {
-        this.prizeName = prizeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPrizeQuantity() {
-        return prizeQuantity;
+    public String getQuantity() {
+        return quantity;
     }
 
-    public void setPrizeQuantity(String prizeQuantity) {
-        this.prizeQuantity = prizeQuantity;
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
     @Override
