@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -20,7 +18,7 @@ public class AddPurchaseController {
         this.purchaseRepository = purchaseRepository;
     }
 
-    @RequestMapping(value = "/AddPurchase/{buyerId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/Purchase/Buyers/{buyerId}", method = RequestMethod.POST)
     public ResponseEntity<Purchase> addPurchase(@PathVariable Long buyerId, @RequestBody Purchase purchase) {
         Buyer buyer = new Buyer(buyerId);
         purchase.setBuyer(buyer);
@@ -28,7 +26,7 @@ public class AddPurchaseController {
         return new ResponseEntity<>(purchase, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/AddPurchase/{buyerId}/date/{purchaseDate}", method = RequestMethod.POST)
+    @RequestMapping(value = "/Purchases/Buyers/{buyerId}/purchaseDate/{purchaseDate}", method = RequestMethod.POST)
     public ResponseEntity<Purchase> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable LocalDate purchaseDate) {
         Buyer buyer = new Buyer(buyerId);
 

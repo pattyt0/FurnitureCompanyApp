@@ -20,8 +20,8 @@ public class ListPromotionalPeriodController {
         this.promotionalPeriodRepository = furnitureRepository;
     }
 
-    @RequestMapping(value="/ListPromotionalPeriod", method= RequestMethod.GET)
+    @RequestMapping(value="/PromotionalPeriods", method= RequestMethod.GET)
     public ResponseEntity<List<PromotionalPeriod>> listAllPromotionalPeriod() {
-        return new ResponseEntity<List<PromotionalPeriod>>(promotionalPeriodRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(promotionalPeriodRepository.findAll(), HttpStatus.OK);
     }
 }

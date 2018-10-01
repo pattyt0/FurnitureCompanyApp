@@ -16,7 +16,7 @@ public class AddPromotionalPeriodController {
         this.promotionalPeriodRepository = promotionalPeriodRepository;
     }
 
-    @RequestMapping(value = "/AddPromotionalPeriod", method = RequestMethod.POST)
+    @RequestMapping(value = "/PromotionalPeriods", method = RequestMethod.POST)
     public ResponseEntity<PromotionalPeriod> addPromotionalPeriod(@RequestBody PromotionalPeriod promotionalPeriod) {
         promotionalPeriodRepository.save(promotionalPeriod);
         return new ResponseEntity<>(promotionalPeriod, HttpStatus.OK);

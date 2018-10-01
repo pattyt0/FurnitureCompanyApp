@@ -17,7 +17,7 @@ public class DeletePurchaseController {
         this.purchaseRepository = purchaseRepository;
     }
 
-    @RequestMapping(method= RequestMethod.POST, value="/DeletePurchase/{id}")
+    @RequestMapping(method= RequestMethod.DELETE, value="/Purchases/{id}")
     public ResponseEntity<Purchase> removePurchaseById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             purchaseRepository.deleteById(Long.valueOf(id));

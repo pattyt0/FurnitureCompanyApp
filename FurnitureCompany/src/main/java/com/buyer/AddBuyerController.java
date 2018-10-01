@@ -15,9 +15,9 @@ public class AddBuyerController {
         this.buyerRepository = buyerRepository;
     }
 
-    @RequestMapping(value = "/AddBuyer", method = RequestMethod.POST)
+    @RequestMapping(value = "/Buyers", method = RequestMethod.POST)
     public ResponseEntity<Buyer> addBuyer(@RequestBody Buyer buyer) {
         buyerRepository.save(buyer);
-        return new ResponseEntity<Buyer>(buyer, HttpStatus.OK);
+        return new ResponseEntity<>(buyer, HttpStatus.OK);
     }
 }

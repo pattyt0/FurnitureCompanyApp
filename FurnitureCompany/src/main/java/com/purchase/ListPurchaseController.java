@@ -14,7 +14,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
-import java.util.TimeZone;
 
 @RestController
 public class ListPurchaseController {
@@ -25,12 +24,12 @@ public class ListPurchaseController {
         this.userRepository = furnitureRepository;
     }
 
-    @RequestMapping(value="/ListPurchases", method= RequestMethod.GET)
+    @RequestMapping(value="/Purchases", method= RequestMethod.GET)
     public ResponseEntity<List<Purchase>> listAllPurchases() {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/ListPurchases/{buyerId}/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}", method= RequestMethod.GET)
+    @RequestMapping(value="/Purchase/Buyers/{buyerId}/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}", method= RequestMethod.GET)
     public ResponseEntity<List<Purchase>> listAllPurchasesByPurchaseDateBetween(@PathVariable Long buyerId, @PathVariable Long purchaseDateStart, @PathVariable Long purchaseDateEnd) {
         Buyer buyer = new Buyer(buyerId);
         LocalDate rangeStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
@@ -39,7 +38,7 @@ public class ListPurchaseController {
         return new ResponseEntity<>(userRepository.findAllByBuyerAndPurchaseDateBetween(buyer, rangeStart, rangeEnd), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/ListPurchases/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}", method= RequestMethod.GET)
+    @RequestMapping(value="/Purchases/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}", method= RequestMethod.GET)
     public ResponseEntity<List<Purchase>> listAllPurchasesByPurchaseDateBetween(@PathVariable Long purchaseDateStart, @PathVariable Long purchaseDateEnd) {
         LocalDate rangeStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
         LocalDate rangeEnd = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate();

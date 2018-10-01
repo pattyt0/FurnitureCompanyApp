@@ -14,7 +14,7 @@ public class DeleteFurnitureController {
         this.furnitureRepository = furnitureRepository;
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/DeleteFurniture/{id}")
+    @RequestMapping(method=RequestMethod.DELETE, value="/Furniture/{id}")
     public ResponseEntity<Furniture> removeFurnitureById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             furnitureRepository.deleteById(Long.valueOf(id));

@@ -21,17 +21,8 @@ public class ListFurnitureController {
         this.furnitureRepository = furnitureRepository;
     }
 
-    @RequestMapping(value="/FurnitureTest", method= RequestMethod.GET)
-    public ResponseEntity<Furniture> listFurnituresTest() {
-        Furniture furniture = new Furniture();
-        furniture.setName("Office Desk");
-        furniture.setCode("OD1000");
-        furniture.setFurnitureId(new Long(1000));
-        return new ResponseEntity<Furniture>(furniture, HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/ListFurniture", method= RequestMethod.GET)
+    @RequestMapping(value="/Furniture", method= RequestMethod.GET)
     public ResponseEntity<List<Furniture>> listAllFurniture() {
-        return new ResponseEntity<List<Furniture>>(furnitureRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(furnitureRepository.findAll(), HttpStatus.OK);
     }
 }

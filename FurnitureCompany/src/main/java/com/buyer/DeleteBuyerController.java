@@ -17,7 +17,7 @@ public class DeleteBuyerController {
         this.buyerRepository = buyerRepository;
     }
 
-    @RequestMapping(method= RequestMethod.POST, value="/DeleteBuyer/{id}")
+    @RequestMapping(method= RequestMethod.DELETE, value="/Buyers/{id}")
     public ResponseEntity<Buyer> removeBuyerById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             buyerRepository.deleteById(Long.valueOf(id));

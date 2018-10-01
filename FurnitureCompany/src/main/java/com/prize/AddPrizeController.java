@@ -23,7 +23,7 @@ public class AddPrizeController {
         this.prizeRepository = prizeRepository;
     }
 
-    @RequestMapping(value = "/PromotionalPeriod/{promotionalPeriodId}/AddPrize", method = RequestMethod.POST)
+    @RequestMapping(value = "/PromotionalPeriods/{promotionalPeriodId}/Prizes", method = RequestMethod.POST)
     public ResponseEntity<Object> addPrize(@PathVariable Long promotionalPeriodId, @RequestBody Prize prize) {
 
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);

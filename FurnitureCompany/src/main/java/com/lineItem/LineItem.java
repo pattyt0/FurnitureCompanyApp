@@ -1,7 +1,5 @@
 package com.lineItem;
 
-
-import com.buyer.Buyer;
 import com.furniture.Furniture;
 import com.purchase.Purchase;
 

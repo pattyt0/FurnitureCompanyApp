@@ -20,7 +20,7 @@ public class ListBuyerController {
         this.buyerRepository = buyerRepository;
     }
 
-    @RequestMapping(value="/ListBuyer", method= RequestMethod.GET)
+    @RequestMapping(value="/Buyers", method= RequestMethod.GET)
     public ResponseEntity<List<Buyer>> listAllBuyers() {
         return new ResponseEntity<>(buyerRepository.findAll(), HttpStatus.OK);
     }

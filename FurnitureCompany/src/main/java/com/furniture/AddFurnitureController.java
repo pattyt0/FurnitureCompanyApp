@@ -16,10 +16,10 @@ public class AddFurnitureController {
         this.furnitureRepository = furnitureRepository;
     }
 
-    @RequestMapping(value = "/AddFurniture", method = RequestMethod.POST)
+    @RequestMapping(value = "/Furniture", method = RequestMethod.POST)
     public ResponseEntity<Furniture> addFurniture(@RequestBody Furniture furniture) {
         furnitureRepository.save(furniture);
-        return new ResponseEntity<Furniture>(furniture, HttpStatus.OK);
+        return new ResponseEntity<>(furniture, HttpStatus.OK);
     }
 
 }

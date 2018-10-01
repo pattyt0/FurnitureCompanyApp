@@ -20,8 +20,8 @@ public class ListPrizeController {
         this.prizeRepository = prizeRepository;
     }
 
-    @RequestMapping(value="/ListPrizes", method= RequestMethod.GET)
+    @RequestMapping(value="/Prizes", method= RequestMethod.GET)
     public ResponseEntity<List<Prize>> listAllPrizes() {
-        return new ResponseEntity<List<Prize>>(prizeRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(prizeRepository.findAll(), HttpStatus.OK);
     }
 }

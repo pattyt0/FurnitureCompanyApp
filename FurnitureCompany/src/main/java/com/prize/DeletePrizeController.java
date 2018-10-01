@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class DeletePrizeController {
-    private PrizeRepository furnitureRepository;
+    private PrizeRepository prizeRepository;
 
     @Autowired
-    public DeletePrizeController(PrizeRepository furnitureRepository){
-        this.furnitureRepository = furnitureRepository;
+    public DeletePrizeController(PrizeRepository PrizeRepository){
+        this.prizeRepository = PrizeRepository;
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/DeletePrize/{id}")
+    @RequestMapping(method=RequestMethod.DELETE, value="/Prizes/{id}")
     public ResponseEntity<Prize> removePrizeById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
-            furnitureRepository.deleteById(Long.valueOf(id));
+            prizeRepository.deleteById(Long.valueOf(id));
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
