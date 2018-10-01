@@ -1,7 +1,6 @@
 package com.prize;
 
 import com.promotionalPeriod.PromotionalPeriod;
-import com.purchase.Purchase;
 
 import javax.persistence.*;
 import java.io.Serializable;
