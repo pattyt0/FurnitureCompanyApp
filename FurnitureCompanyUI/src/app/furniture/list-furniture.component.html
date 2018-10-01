@@ -13,7 +13,7 @@
         <tr *ngFor="let furniture of furniture">
             <td class="hidden">{{furniture.furnitureId}}</td>
             <td>{{furniture.code}}</td>
-            <td>{{furniture.name}}</td>
+            <td>{{furniture.firstName}}</td>
             <td><button class="btn btn-danger" (click)="deleteFurniture(furniture)"> Delete Furniture</button></td>
         </tr>
         </tbody>

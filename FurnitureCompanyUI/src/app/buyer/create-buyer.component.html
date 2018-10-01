@@ -2,23 +2,23 @@
   <h2 class="text-center">Add Buyer</h2>
   <form>
     <div class="form-group">
-      <label for="name">Buyer Name:</label>
-      <input [(ngModel)]="purchase.name" placeholder="Full Name" name="fullName" class="form-control" id="fullName">
+      <label for="firstName">Buyer Name:</label>
+      <input [(ngModel)]="purchase.firstName" placeholder="Full Name" firstName="fullName" class="form-control" id="fullName">
     </div>
 
     <div class="form-group">
       <label for="address">Address:</label>
-      <input [(ngModel)]="purchase.address" placeholder="Address" name="address" class="form-control" id="address">
+      <input [(ngModel)]="purchase.address" placeholder="Address" firstName="address" class="form-control" id="address">
     </div>
 
     <div class="form-group">
       <label for="phone">Phone:</label>
-      <input [(ngModel)]="purchase.phone" placeholder="Phone" name="phone" class="form-control" id="phone">
+      <input [(ngModel)]="purchase.phone" placeholder="Phone" firstName="phone" class="form-control" id="phone">
     </div>
 
     <div class="form-group">
       <label for="personalId">Personal Identification:</label>
-      <input [(ngModel)]="purchase.personalId" placeholder="CI" name="personalId" class="form-control" id="personalId">
+      <input [(ngModel)]="purchase.personalId" placeholder="CI" firstName="personalId" class="form-control" id="personalId">
     </div>
 
     <button class="btn btn-success" (click)="createBuyer()">Create</button>

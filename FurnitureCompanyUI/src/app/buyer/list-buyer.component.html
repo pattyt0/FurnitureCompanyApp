@@ -5,7 +5,7 @@
         <thead>
         <tr>
             <th class="hidden">buyerId</th>
-            <th>name</th>
+            <th>firstName</th>
             <th>address</th>
             <th>phone</th>
             <th>personalId</th>
@@ -14,7 +14,7 @@
         <tbody>
         <tr *ngFor="let purchase of buyers">
             <td class="hidden">{{purchase.buyerId}}</td>
-            <td>{{purchase.name}}</td>
+            <td>{{purchase.firstName}}</td>
             <td>{{purchase.address}}</td>
             <td>{{purchase.phone}}</td>
             <td>{{purchase.personalId}}</td>

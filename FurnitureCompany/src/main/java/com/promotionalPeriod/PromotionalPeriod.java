@@ -1,29 +1,38 @@
 package com.promotionalPeriod;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import com.Application;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
+@EntityScan(
+        basePackageClasses = {Application.class, Jsr310JpaConverters.class}
+)
 @Entity
 @Table(name = "promotional_period")
-@SequenceGenerator(name = "promotional_period_gen", sequenceName = "promotional_period_gen",  initialValue = 1000)
+@SequenceGenerator(name = "promotional_period_gen", sequenceName = "promotional_period_gen", initialValue = 1000, allocationSize=1)
 public class PromotionalPeriod implements Serializable, Comparable<PromotionalPeriod> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "promotional_period_gen")
     @Column(name="promotional_period_id")
     private Long promotionalPeriodId;
-    @Column(name="promotional_period_name")
-    private String promotionalPeriodName;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Column(name="promotional_period_start_date")
-    private String promotionalPeriodStartDate;
+    @Column(name="title")
+    private String title;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Column(name="promotional_period_end_date")
-    private String promotionalPeriodEndDate;
+    @Column(name="promotion_start")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate promotionStart;
+
+    @Column(name="promotion_end")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate promotionEnd;
 
     public PromotionalPeriod() { }
     public PromotionalPeriod(Long promotionalPeriodId) {
@@ -38,28 +47,28 @@ public class PromotionalPeriod implements Serializable, Comparable<PromotionalPe
         this.promotionalPeriodId = promotionalPeriodId;
     }
 
-    public String getPromotionalPeriodName() {
-        return promotionalPeriodName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPromotionalPeriodName(String promotionalPeriodName) {
-        this.promotionalPeriodName = promotionalPeriodName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getPromotionalPeriodStartDate() {
-        return promotionalPeriodStartDate;
+    public LocalDate getPromotionStart() {
+        return promotionStart;
     }
 
-    public void setPromotionalPeriodStartDate(String promotionalPeriodStartDate) {
-        this.promotionalPeriodStartDate = promotionalPeriodStartDate;
+    public void setPromotionStart(LocalDate promotionStart) {
+        this.promotionStart = promotionStart;
     }
 
-    public String getPromotionalPeriodEndDate() {
-        return promotionalPeriodEndDate;
+    public LocalDate getPromotionEnd() {
+        return promotionEnd;
     }
 
-    public void setPromotionalPeriodEndDate(String promotionalPeriodEndDate) {
-        this.promotionalPeriodEndDate = promotionalPeriodEndDate;
+    public void setPromotionEnd(LocalDate promotionEnd) {
+        this.promotionEnd = promotionEnd;
     }
 
     @Override

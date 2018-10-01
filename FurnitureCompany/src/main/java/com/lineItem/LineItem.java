@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "line_item")
-@SequenceGenerator(name = "line_item_gen", sequenceName = "line_item_gen",  initialValue = 1000)
+@SequenceGenerator(name = "line_item_gen", sequenceName = "line_item_gen", initialValue = 1000, allocationSize=1)
 public class LineItem {
 
     @Id
@@ -25,7 +25,22 @@ public class LineItem {
     @JoinColumn(name = "furniture_id")
     private Furniture furniture;
 
+    @ManyToOne
+    @JoinColumn(name = "buyer_id")
+    private Purchase buyerId;
     private int quantity;
+
+    public Purchase getPurchase() {
+        return purchase;
+    }
+
+    public Purchase getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(Purchase buyerId) {
+        this.buyerId = buyerId;
+    }
 
     public LineItem() {}
 

@@ -6,11 +6,11 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "furniture")
-@SequenceGenerator(name = "furniture_gen", sequenceName = "furniture_gen",  initialValue = 1000)
+@SequenceGenerator(name = "furniture_gen", sequenceName = "furniture_gen", initialValue = 1000, allocationSize=1)
 public class Furniture implements Serializable, Comparable<Furniture> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "furniture_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "furniture_gen")
     @Column(name="furniture_id")
     private Long furnitureId;
 

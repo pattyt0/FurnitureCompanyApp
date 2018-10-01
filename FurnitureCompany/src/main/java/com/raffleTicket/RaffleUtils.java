@@ -12,8 +12,8 @@ public class RaffleUtils {
     public static String generateRaffleCode(Purchase purchase) {
         //TODO: implement logic to get a unique code for every chance
         String uniqueCode = StringUtils.EMPTY;
-        uniqueCode.concat(purchase.getBuyer().getName());
-        uniqueCode.concat(purchase.getFurniture().getFurnitureId().toString());
+        uniqueCode.concat(purchase.getBuyer().getFirstName());
+//        uniqueCode.concat(purchase.getFurniture().getFurnitureId().toString());
         uniqueCode.concat(purchase.getPurchaseDate().toString());
         return StringUtils.EMPTY;
     }
@@ -25,7 +25,7 @@ public class RaffleUtils {
         for (Prize prize:prizes) {
             int winnerLocation = (int) getRandomWinnerBetweenRange(0, chancesPerPromotionalPeriod.size()-1);
             chance = chancesPerPromotionalPeriod.get(winnerLocation);
-            chance.setPrizeId(prize.getPrizeId());
+//            chance.setPrizeId(prize.getPrizeId());
             results.add(chance);
         }
         return results;

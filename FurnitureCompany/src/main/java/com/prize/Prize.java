@@ -1,11 +1,14 @@
 package com.prize;
 
+import com.promotionalPeriod.PromotionalPeriod;
+import com.purchase.Purchase;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "prize")
-@SequenceGenerator(name = "prize_gen", sequenceName = "prize_gen",  initialValue = 1000)
+@SequenceGenerator(name = "prize_gen", sequenceName = "prize_gen", initialValue = 1000, allocationSize=1)
 public class Prize implements Serializable, Comparable<Prize> {
 
     @Id
@@ -16,6 +19,10 @@ public class Prize implements Serializable, Comparable<Prize> {
     private String name;
 
     private String quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "promotional_period_id")
+    private PromotionalPeriod promotionalPeriod;
 
     public Prize(){}
 

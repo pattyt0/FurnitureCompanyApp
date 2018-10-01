@@ -3,10 +3,10 @@
   <form>
     <div class="form-group">
       <label for="purchase">Buyer:</label>
-      <select class="form-control" [(ngModel)]="Buyer" (ngModelChange)="selectchange($event)" name="name" placeholder="Select Buyer">
+      <select class="form-control" [(ngModel)]="Buyer" (ngModelChange)="selectchange($event)" firstName="firstName" placeholder="Select Buyer">
         <option *ngFor="let purchase of buyers"
                 [ngValue]="selectedBuyer">
-          {{ purchase.name }}
+          {{ purchase.firstName }}
         </option>
       </select>
 
@@ -23,8 +23,8 @@
         <tr *ngFor="let furniture of furniture">
           <td class="hidden">{{furniture.promotionalPeriod}}</td>
           <td>{{furniture.code}}</td>
-          <td>{{furniture.name}}</td>
-          <td> <input placeholder="Quantity" name="quantity" class="form-control" id="quantity"></td>
+          <td>{{furniture.firstName}}</td>
+          <td> <input placeholder="Quantity" firstName="quantity" class="form-control" id="quantity"></td>
           <td>
             <select id="ddlYesNo">
               <option value="">Select</option>

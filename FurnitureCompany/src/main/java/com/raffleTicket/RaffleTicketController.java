@@ -4,10 +4,7 @@ import com.purchase.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,9 +25,9 @@ public class RaffleTicketController {
     Pick winners given a promotional period Id
      */
     @RequestMapping(value= "/Raffle/{id}/Run", method= RequestMethod.POST)
-    public ResponseEntity<List<RaffleTicket>> runRaffle(@RequestBody RaffleTicket raffle){
+    public ResponseEntity<String> runRaffle(@PathVariable String id){
         //Returns just promotional period Id
-        Long promotionalPeriodId = raffle.getPromotionalPeriod().getPromotionalPeriodId();
+//        Long promotionalPeriodId = raffle.getPromotionalPeriod().getPromotionalPeriodId();
         //TODO:Get list of prizes
 //        List<Prize> prizes = new ArrayList<>();//TODO: drop me
         //List<Prize> prizes = raffleRepository.getPrizesByPromotionalPeriod(raffleTicket);
@@ -59,7 +56,7 @@ public class RaffleTicketController {
 //        }
 
 //        return new ResponseEntity<>(winners, HttpStatus.OK);
-        return new ResponseEntity<>({}, HttpStatus.OK);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
 //    @RequestMapping(value= "/", method= RequestMethod.POST)
@@ -68,8 +65,8 @@ public class RaffleTicketController {
 //        //Returns just promotional period Id
 //        Raffle raffleResult = new Raffle();
 //        Long promotionalPeriodId = raffleTicket[0].getPromotionalPeriod().getPromotionalPeriodId();
-//        String promotionalPeriodStartDate = raffleTicket[0].getPromotionalPeriod().getPromotionalPeriodStartDate();
-//        String promotionalPeriodEndDate = raffleTicket[0].getPromotionalPeriod().getPromotionalPeriodEndDate();
+//        String promotionalPeriodStartDate = raffleTicket[0].getPromotionalPeriod().getPromotionStart();
+//        String promotionalPeriodEndDate = raffleTicket[0].getPromotionalPeriod().getPromotionEnd();
 //        List<Prize> prizes = new ArrayList<>();
 //        //Fill with request prizes
 //        for (Raffle rafflePrize:raffleTicket) {
@@ -130,17 +127,17 @@ public class RaffleTicketController {
         chancesPerModel.put(Long.valueOf(2),2);
         chancesPerModel.put(Long.valueOf(1),1);
 
-        if(chancesPerModel.containsKey(purchase.getFurniture().getFurnitureId())){
-            int furnitureAvailableChances = chancesPerModel.get(purchase.getFurniture().getFurnitureId());
-            if(furnitureAvailableChances > 0){
-                //Ask for model chance
-                RaffleTicket buyerChance = null;
-                for (int i=0; i<furnitureAvailableChances; i++) {
-                    buyerChance = new RaffleTicket(purchase.getBuyer().getBuyerId(), RaffleUtils.generateRaffleCode(purchase));
-                    results.add(buyerChance);
-                }
-            }
-        }
+//        if(chancesPerModel.containsKey(purchase.getFurniture().getFurnitureId())){
+//            int furnitureAvailableChances = chancesPerModel.get(purchase.getFurniture().getFurnitureId());
+//            if(furnitureAvailableChances > 0){
+//                //Ask for model chance
+//                RaffleTicket buyerChance = null;
+//                for (int i=0; i<furnitureAvailableChances; i++) {
+////                    buyerChance = new RaffleTicket(purchase.getBuyer().getBuyerId(), RaffleUtils.generateRaffleCode(purchase));
+//                    results.add(buyerChance);
+//                }
+//            }
+//        }
         return results;
     }
 }

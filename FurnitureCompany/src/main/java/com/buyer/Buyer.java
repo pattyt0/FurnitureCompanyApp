@@ -4,20 +4,25 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "buyer")
-@SequenceGenerator(name = "buyer_gen", sequenceName = "buyer_gen",  initialValue = 1000)
+@SequenceGenerator(name = "buyer_gen", sequenceName = "buyer_gen", initialValue = 1000, allocationSize=1)
 public class Buyer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "buyer_gen")
     @Column(name="buyer_id")
     private Long buyerId;
-    private String name;
+    @Column(name="first_name")
+    private String firstName;
+    @Column(name="last_name")
+    private String lastName;
     private String address;
     private String phone;
     @Column(name="personal_id")
     private String personalId;
 
     public Buyer() {}
-    public Buyer(Long buyerId) {}
+    public Buyer(Long buyerId) {
+        this.buyerId = buyerId;
+    }
 
     public Long getBuyerId() {
         return buyerId;
@@ -27,12 +32,12 @@ public class Buyer {
         this.buyerId = buyerId;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getAddress() {
@@ -57,5 +62,13 @@ public class Buyer {
 
     public void setPersonalId(String personalId) {
         this.personalId = personalId;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }

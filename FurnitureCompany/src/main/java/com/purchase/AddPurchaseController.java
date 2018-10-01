@@ -1,10 +1,12 @@
 package com.purchase;
 
+import com.buyer.Buyer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,19 +20,20 @@ public class AddPurchaseController {
         this.purchaseRepository = purchaseRepository;
     }
 
-    @RequestMapping(value = "/AddPurchase", method = RequestMethod.POST)
-    public ResponseEntity<Purchase> addPurchase(@RequestBody Purchase purchase) {
+    @RequestMapping(value = "/AddPurchase/{buyerId}", method = RequestMethod.POST)
+    public ResponseEntity<Purchase> addPurchase(@PathVariable Long buyerId, @RequestBody Purchase purchase) {
+        Buyer buyer = new Buyer(buyerId);
+        purchase.setBuyer(buyer);
         purchaseRepository.save(purchase);
         return new ResponseEntity<>(purchase, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/AddPurchases", method = RequestMethod.POST)
-    public ResponseEntity<List<Purchase>> addPurchase(@RequestBody List<Purchase> purchases) {
-        List<Purchase> result = new ArrayList<>();
-        for (Purchase purchase : purchases) {
-            result.add(purchaseRepository.save(purchase));
-        }
+    @RequestMapping(value = "/AddPurchase/{buyerId}/date/{purchaseDate}", method = RequestMethod.POST)
+    public ResponseEntity<Purchase> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable LocalDate purchaseDate) {
+        Buyer buyer = new Buyer(buyerId);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        Purchase purchase = new Purchase(buyer, purchaseDate);
+        purchaseRepository.save(purchase);
+        return new ResponseEntity<>(purchase, HttpStatus.OK);
     }
 }

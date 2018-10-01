@@ -1,13 +1,15 @@
 package com.purchase;
 
 import com.buyer.Buyer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "purchase")
-@SequenceGenerator(name = "purchase_gen", sequenceName = "purchase_gen",  initialValue = 1000)
+@SequenceGenerator(name = "purchase_gen", sequenceName = "purchase_gen", initialValue = 1000, allocationSize=1)
 public class Purchase {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "purchase_gen")
@@ -15,14 +17,23 @@ public class Purchase {
     private Long purchaseId;
 
     @Column(name="purchase_date")
-    private Instant purchaseDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy::MM::dd")
+    private LocalDate purchaseDate;
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
     private Buyer buyer;
 
+    public Purchase(){}
+    public Purchase(LocalDate purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
 
-    public Purchase() {}
+    public Purchase(Buyer buyer, LocalDate purchaseDate) {
+        this.buyer = buyer;
+        this.purchaseDate = purchaseDate;
+    }
 
     public Long getPurchaseId() {
         return purchaseId;
@@ -32,11 +43,11 @@ public class Purchase {
         this.purchaseId = purchaseId;
     }
 
-    public Instant getPurchaseDate() {
+    public LocalDate getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(Instant purchaseDate) {
+    public void setPurchaseDate(LocalDate purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
