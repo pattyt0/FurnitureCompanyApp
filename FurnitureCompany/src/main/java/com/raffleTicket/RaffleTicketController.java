@@ -5,10 +5,14 @@ import com.prize.PrizeService;
 import com.promotionalPeriod.PromotionalPeriod;
 import com.promotionalPeriod.PromotionalPeriodService;
 import com.purchase.Purchase;
+import com.purchase.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
@@ -21,6 +25,7 @@ public class RaffleTicketController {
     private PromotionalPeriodService promotionalPeriodService;
     @Autowired
     private PrizeService prizeService;
+    private PurchaseService purchaseService;
 
     @Autowired
     public RaffleTicketController(RaffleTicketRepository raffleRepository){
@@ -30,17 +35,21 @@ public class RaffleTicketController {
     /*
     Pick winners given a promotional period Id
      */
-    @RequestMapping(value= "/Raffle/{promotionalPeriodId}/Run", method= RequestMethod.GET)
-    public ResponseEntity<List<Prize>> runRaffle(@PathVariable Long promotionalPeriodId){
+    @RequestMapping(value= "/Raffle/PromotionalPeriods/{promotionalPeriodId}/Run", method= RequestMethod.GET)
+    public ResponseEntity<Object> runRaffle(@PathVariable Long promotionalPeriodId){
 
         //Get promotional period for {promotionalPeriodId}
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);
 
-        //TODO:Get list of prizes of promotional period
-        List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(promotionalPeriod.get());
-        //Get list of chances of buyers per promotional period
-//        List<Purchase> currentChancesOfPromotionalPeriod = new ArrayList<>();
-//        //1. Generate list of chances
+        //Get list of prizes of promotional period
+        if(promotionalPeriod.isPresent()) {
+            PromotionalPeriod currentPromotionalPeriod = promotionalPeriod.get();
+            List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(currentPromotionalPeriod);
+            //Get list of chances of buyers per promotional period
+            List<Purchase> purchasesOfPromotionalPeriod = purchaseService.getAllPurchasesBetweenDates(
+                    currentPromotionalPeriod.getPromotionStart(),
+                    currentPromotionalPeriod.getPromotionEnd());
+            //1. Generate list of chances
 //        List<BuyerChance> chancesPerPromotionalPeriod = generateListOfChances(currentChancesOfPromotionalPeriod);
 //        //2. Raffle
 //        List<BuyerChance> winners = RaffleUtils.raffleWinnersPerPrize(chancesPerPromotionalPeriod, prizes);
@@ -64,7 +73,11 @@ public class RaffleTicketController {
 
 //        return new ResponseEntity<>(winners, HttpStatus.OK);
 //        return new ResponseEntity<>(promotionalPeriodId, HttpStatus.OK);
-        return new ResponseEntity<>(prizes, HttpStatus.OK);
+            return new ResponseEntity<>(purchasesOfPromotionalPeriod, HttpStatus.OK);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
+        }
+
     }
 
 //    @RequestMapping(value= "/", method= RequestMethod.POST)
