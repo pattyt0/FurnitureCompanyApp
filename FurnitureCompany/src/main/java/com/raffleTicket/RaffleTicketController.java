@@ -1,20 +1,26 @@
 package com.raffleTicket;
 
+import com.prize.Prize;
+import com.prize.PrizeService;
+import com.promotionalPeriod.PromotionalPeriod;
+import com.promotionalPeriod.PromotionalPeriodService;
 import com.purchase.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class RaffleTicketController {
 
     private RaffleTicketRepository raffleRepository;
+
+    @Autowired
+    private PromotionalPeriodService promotionalPeriodService;
+    @Autowired
+    private PrizeService prizeService;
 
     @Autowired
     public RaffleTicketController(RaffleTicketRepository raffleRepository){
@@ -24,14 +30,15 @@ public class RaffleTicketController {
     /*
     Pick winners given a promotional period Id
      */
-    @RequestMapping(value= "/Raffle/{id}/Run", method= RequestMethod.POST)
-    public ResponseEntity<String> runRaffle(@PathVariable String id){
-        //Returns just promotional period Id
-//        Long promotionalPeriodId = raffle.getPromotionalPeriod().getPromotionalPeriodId();
-        //TODO:Get list of prizes
-//        List<Prize> prizes = new ArrayList<>();//TODO: drop me
-        //List<Prize> prizes = raffleRepository.getPrizesByPromotionalPeriod(raffleTicket);
-//        //Get list of chances of buyers per promotional period
+    @RequestMapping(value= "/Raffle/{promotionalPeriodId}/Run", method= RequestMethod.GET)
+    public ResponseEntity<List<Prize>> runRaffle(@PathVariable Long promotionalPeriodId){
+
+        //Get promotional period for {promotionalPeriodId}
+        Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);
+
+        //TODO:Get list of prizes of promotional period
+        List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(promotionalPeriod.get());
+        //Get list of chances of buyers per promotional period
 //        List<Purchase> currentChancesOfPromotionalPeriod = new ArrayList<>();
 //        //1. Generate list of chances
 //        List<BuyerChance> chancesPerPromotionalPeriod = generateListOfChances(currentChancesOfPromotionalPeriod);
@@ -56,7 +63,8 @@ public class RaffleTicketController {
 //        }
 
 //        return new ResponseEntity<>(winners, HttpStatus.OK);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+//        return new ResponseEntity<>(promotionalPeriodId, HttpStatus.OK);
+        return new ResponseEntity<>(prizes, HttpStatus.OK);
     }
 
 //    @RequestMapping(value= "/", method= RequestMethod.POST)

@@ -51,6 +51,14 @@ public class Prize implements Serializable, Comparable<Prize> {
         this.quantity = quantity;
     }
 
+    public PromotionalPeriod getPromotionalPeriod() {
+        return promotionalPeriod;
+    }
+
+    public void setPromotionalPeriod(PromotionalPeriod promotionalPeriod) {
+        this.promotionalPeriod = promotionalPeriod;
+    }
+
     @Override
     public int compareTo(Prize other) {
         return this.getPrizeId().intValue() - other.getPrizeId().intValue();

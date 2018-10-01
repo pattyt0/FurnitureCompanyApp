@@ -1,6 +1,9 @@
 package com.prize;
 
+import com.promotionalPeriod.PromotionalPeriod;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 
 /*
@@ -8,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @param Long defines type of ID property
  */
 public interface PrizeRepository extends JpaRepository<Prize, Long> {
+    List<Prize> findAllByPromotionalPeriod(PromotionalPeriod promotionalPeriod);
 }
