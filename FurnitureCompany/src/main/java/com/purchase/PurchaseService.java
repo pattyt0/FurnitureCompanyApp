@@ -10,9 +10,9 @@ import java.util.List;
 public class PurchaseService {
 
     @Autowired
-    PurchaseRepository purchaseRepositoryRepository;
+    PurchaseRepository purchaseRepository;
 
     public List<Purchase> getAllPurchasesBetweenDates(LocalDate purchaseDateStart, LocalDate purchaseDateEnd) {
-        return purchaseRepositoryRepository.findAllByPurchaseDateBetween(purchaseDateStart, purchaseDateEnd);
+        return purchaseRepository.findAllByPurchaseDateBetween(purchaseDateStart, purchaseDateEnd);
     }
 }

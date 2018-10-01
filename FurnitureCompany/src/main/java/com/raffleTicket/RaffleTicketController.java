@@ -25,6 +25,7 @@ public class RaffleTicketController {
     private PromotionalPeriodService promotionalPeriodService;
     @Autowired
     private PrizeService prizeService;
+    @Autowired
     private PurchaseService purchaseService;
 
     @Autowired
