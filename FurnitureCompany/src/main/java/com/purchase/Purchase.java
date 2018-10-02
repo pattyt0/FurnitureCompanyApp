@@ -1,7 +1,6 @@
 package com.purchase;
 
 import com.buyer.Buyer;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ public class Purchase {
 
     @Column(name="purchase_date")
     @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy::MM::dd")
     private LocalDate purchaseDate;
 
     @ManyToOne

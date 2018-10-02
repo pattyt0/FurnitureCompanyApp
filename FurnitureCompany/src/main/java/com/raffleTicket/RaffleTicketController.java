@@ -46,12 +46,12 @@ public class RaffleTicketController {
         if(promotionalPeriod.isPresent()) {
             PromotionalPeriod currentPromotionalPeriod = promotionalPeriod.get();
             List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(currentPromotionalPeriod);
-            //Get list of chances of buyers per promotional period
+            //Get list of chances of buyers with purchases in promotional period date
             List<Purchase> purchasesOfPromotionalPeriod = purchaseService.getAllPurchasesBetweenDates(
                     currentPromotionalPeriod.getPromotionStart(),
                     currentPromotionalPeriod.getPromotionEnd());
-            //1. Generate list of chances
-//        List<BuyerChance> chancesPerPromotionalPeriod = generateListOfChances(currentChancesOfPromotionalPeriod);
+            //1. Generate list of chances per buyer
+            List<RaffleTicket> chancesPerPromotionalPeriod = generateListOfChances(purchasesOfPromotionalPeriod);
 //        //2. Raffle
 //        List<BuyerChance> winners = RaffleUtils.raffleWinnersPerPrize(chancesPerPromotionalPeriod, prizes);
 //
@@ -64,7 +64,7 @@ public class RaffleTicketController {
 //
 //            promotionalPeriod = new PromotionalPeriod(promotionalPeriodId);
 //            raffleTicket.setPromotionalPeriod(promotionalPeriod);
-//            buyer = new Buyer(buyerChance.getBuyerId());
+//            buyer = new Buyer(buyerChance.getBuyer());
 //            raffleTicket.setPurchase(buyer);
 //            prize = new Prize(buyerChance.getPrizeId());
 //            raffleTicket.setPrize(prize);
@@ -113,7 +113,7 @@ public class RaffleTicketController {
 //
 //            promotionalPeriod = new PromotionalPeriod(promotionalPeriodId);
 //            raffleResult.setPromotionalPeriod(promotionalPeriod);
-//            buyer = new Buyer(buyerChance.getBuyerId());
+//            buyer = new Buyer(buyerChance.getBuyer());
 //            raffleResult.setPurchase(buyer);
 //            prize = new Prize(buyerChance.getPrizeId());
 //            raffleResult.setPrize(prize);
@@ -127,15 +127,15 @@ public class RaffleTicketController {
     /*
     Generate changes available per user for a promotional period
      */
-    private List<RaffleTicket> generateListOfChances(List<Purchase> currentChancesOfPromotionalPeriod) {
+    private List<RaffleTicket> generateListOfChances(List<Purchase> promotionalPurchases) {
         //TODO:Additional set of Buyer chances per promotional period
-        List<RaffleTicket> finalChances = new ArrayList<>();
+        List<RaffleTicket> totalChances = new ArrayList<>();
 
-        for (Purchase purchase:currentChancesOfPromotionalPeriod) {
+        for (Purchase purchase:promotionalPurchases) {
             List<RaffleTicket> buyerChances = getBuyerChancesPerFurnitureModel(purchase);
-            finalChances.addAll(buyerChances);
+            totalChances.addAll(buyerChances);
         }
-        return finalChances;
+        return totalChances;
     }
 
     /*
@@ -155,7 +155,7 @@ public class RaffleTicketController {
 //                //Ask for model chance
 //                RaffleTicket buyerChance = null;
 //                for (int i=0; i<furnitureAvailableChances; i++) {
-////                    buyerChance = new RaffleTicket(purchase.getBuyer().getBuyerId(), RaffleUtils.generateRaffleCode(purchase));
+////                    buyerChance = new RaffleTicket(purchase.getBuyer().getBuyer(), RaffleUtils.generateRaffleCode(purchase));
 //                    results.add(buyerChance);
 //                }
 //            }

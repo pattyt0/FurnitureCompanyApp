@@ -4,7 +4,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th class="hidden">buyerId</th>
+            <th class="hidden">buyer</th>
             <th>firstName</th>
             <th>address</th>
             <th>phone</th>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let purchase of buyers">
-            <td class="hidden">{{purchase.buyerId}}</td>
+            <td class="hidden">{{purchase.buyer}}</td>
             <td>{{purchase.firstName}}</td>
             <td>{{purchase.address}}</td>
             <td>{{purchase.phone}}</td>

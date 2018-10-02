@@ -1,5 +1,6 @@
 package com.lineItem;
 
+import com.buyer.Buyer;
 import com.furniture.Furniture;
 import com.purchase.Purchase;
 
@@ -25,19 +26,19 @@ public class LineItem {
 
     @ManyToOne
     @JoinColumn(name = "buyer_id")
-    private Purchase buyerId;
+    private Buyer buyer;
     private int quantity;
 
     public Purchase getPurchase() {
         return purchase;
     }
 
-    public Purchase getBuyerId() {
-        return buyerId;
+    public Buyer getBuyer() {
+        return buyer;
     }
 
-    public void setBuyerId(Purchase buyerId) {
-        this.buyerId = buyerId;
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
     }
 
     public LineItem() {}
