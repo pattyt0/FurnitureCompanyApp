@@ -1,8 +1,5 @@
 package com.lineItem;
 
-import com.buyer.Buyer;
-import com.buyer.BuyerService;
-import com.furniture.Furniture;
 import com.purchase.Purchase;
 import com.purchase.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;

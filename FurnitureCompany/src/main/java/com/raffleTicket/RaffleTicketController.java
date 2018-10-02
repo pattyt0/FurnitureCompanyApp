@@ -145,9 +145,7 @@ public class RaffleTicketController {
         List<RaffleTicket> results = new ArrayList<>();
         //get map of chances per model <furnitureId, chanceForFurnitureModel>
         //TODO: load from a configuration file, all furniture model should have number of chances
-        Map<Long, Integer> chancesPerModel = new HashMap<>();
-        chancesPerModel.put(Long.valueOf(2),2);
-        chancesPerModel.put(Long.valueOf(1),1);
+        Map<Long, Integer> chancesPerModel = RaffleUtils.loadConfigurationChanges();
 
 //        if(chancesPerModel.containsKey(purchase.getFurniture().getFurnitureId())){
 //            int furnitureAvailableChances = chancesPerModel.get(purchase.getFurniture().getFurnitureId());
