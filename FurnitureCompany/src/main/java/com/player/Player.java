@@ -1,11 +1,24 @@
 package com.player;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "player")
 @SequenceGenerator(name = "player_gen", sequenceName = "player_gen")
+@JsonIgnoreProperties({ "buyerId"})
 public class Player {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "player_gen")
+    @Column(name="raffle_ticket_id")
+    private Long playerId;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String phone;
+    private String personalId;
+
     public Long getPlayerId() {
         return playerId;
     }
@@ -54,13 +67,4 @@ public class Player {
         this.personalId = personalId;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "player_gen")
-    @Column(name="raffle_ticket_id")
-    private Long playerId;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String phone;
-    private String personalId;
 }

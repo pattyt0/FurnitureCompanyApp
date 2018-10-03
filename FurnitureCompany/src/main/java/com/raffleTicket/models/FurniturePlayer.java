@@ -1,11 +1,14 @@
 package com.raffleTicket.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.player.Player;
 
 import java.time.LocalDate;
 
 public class FurniturePlayer {
+
     private LocalDate purchaseDate;
+    @JsonProperty("buyer")
     private Player player;
     private int numberOfTickets;
 

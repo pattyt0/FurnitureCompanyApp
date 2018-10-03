@@ -67,7 +67,7 @@ public class RaffleTicketController {
 //                raffleRepository.save(raffleTicket);
 //            }
 
-            return new ResponseEntity<>(promotionalPeriodId, HttpStatus.OK);
+            return new ResponseEntity<>(winners, HttpStatus.OK);
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
         }

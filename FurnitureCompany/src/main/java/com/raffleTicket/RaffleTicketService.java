@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class RaffleTicketService {
-    public static int startTicketSeries = 1000;
+    public static int startTicketSeries = 1000000;
 
     public List<RaffleTicket> generateRaffleTickets(FurniturePlayer player, int totalTickets) {
         List<RaffleTicket> tickets = new ArrayList<>();
@@ -18,21 +18,30 @@ public class RaffleTicketService {
         for (int i = 0; i < player.getNumberOfTickets(); i++) {
             playerTicket = new RaffleTicket();
             playerTicket.setPlayer(player.getPlayer());
-            playerTicket.setTicketNumber(Double.toString(getRandomWinnerBetweenRange(startTicketSeries, startTicketSeries + (totalTickets - 1))));
+            playerTicket.setTicketNumber(Long.toString((long)(getRandomWinnerBetweenRange(startTicketSeries, startTicketSeries + (totalTickets - 1)))));
             tickets.add(playerTicket);
         }
 
         return tickets;
     }
 
+    /*
+    ticketsPerPromotionalPeriod should be more than number of prizes
+    DEVNOTE: how should be logic for the opposite use case
+     */
     public static List<RaffleTicket> raffleWinnersPerPrize(List<RaffleTicket> ticketsPerPromotionalPeriod, List<Prize> prizes) {
         List<RaffleTicket> results = new ArrayList<>();
+
+        List<RaffleTicket> currentTickets = ticketsPerPromotionalPeriod;
+
         RaffleTicket ticketWinner = null;
-        for (Prize prize:prizes) {
-            int randomNumber = (int) getRandomWinnerBetweenRange(0, ticketsPerPromotionalPeriod.size()-1);
+
+        for(Prize prize:prizes) {
+            int randomNumber = (int) getRandomWinnerBetweenRange(0, currentTickets.size()-1);
             ticketWinner = ticketsPerPromotionalPeriod.get(randomNumber);
             ticketWinner.setPrize(prize);
             results.add(ticketWinner);
+            currentTickets.remove(randomNumber);
         }
         return results;
     }
