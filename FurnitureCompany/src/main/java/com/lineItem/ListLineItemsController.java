@@ -25,7 +25,7 @@ public class ListLineItemsController {
         this.lineItemRepository = lineItemRepository;
     }
 
-    @RequestMapping(value="/Purchase/{purchaseId}/LineItems", method= RequestMethod.GET)
+    @RequestMapping(value="/Purchases/{purchaseId}/LineItems", method= RequestMethod.GET)
     public ResponseEntity<Object> listAllLineItems(@PathVariable Long purchaseId) {
         Optional<Purchase> purchase = purchaseService.getPurchaseById(purchaseId);
         if(purchase.isPresent()){

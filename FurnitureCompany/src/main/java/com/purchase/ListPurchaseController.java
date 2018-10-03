@@ -1,6 +1,7 @@
 package com.purchase;
 
 import com.buyer.Buyer;
+import com.lineItem.LineItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ import java.util.List;
 @RestController
 public class ListPurchaseController {
     private PurchaseRepository userRepository;
+
+    @Autowired
+    private LineItemService lineItemService;
 
     @Autowired
     public ListPurchaseController(PurchaseRepository furnitureRepository){
@@ -44,5 +48,17 @@ public class ListPurchaseController {
         LocalDate rangeEnd = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate();
 
         return new ResponseEntity<>(userRepository.findAllByPurchaseDateBetween(rangeStart, rangeEnd), HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/Purchases/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}/RaffleTickets", method= RequestMethod.GET)
+    public ResponseEntity<List<Ticket>> getPurchasesBetweenPurchaseDateRageWithRaffleChances(@PathVariable Long purchaseDateStart, @PathVariable Long purchaseDateEnd) {
+        LocalDate rangeStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
+        LocalDate rangeEnd = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate();
+
+        List<Purchase> purchasesInTimeRange = userRepository.findAllByPurchaseDateBetween(rangeStart, rangeEnd);
+
+        List<Ticket> raffleTickets = lineItemService.fillRaffleTicketsChance(purchasesInTimeRange);
+
+        return new ResponseEntity<>(raffleTickets, HttpStatus.OK);
     }
 }

@@ -1,6 +1,6 @@
 package com.raffleTicket;
 
-import com.buyer.Buyer;
+import com.player.Player;
 import com.prize.Prize;
 import com.promotionalPeriod.PromotionalPeriod;
 
@@ -17,8 +17,8 @@ public class RaffleTicket {
     private Long raffleTicketId;
 
     @ManyToOne
-    @JoinColumn(name = "buyer_id")
-    private Buyer buyer;
+    @JoinColumn(name = "player_id")
+    private Player player;
 
     @ManyToOne
     @JoinColumn(name = "promotional_period_id")
@@ -53,12 +53,12 @@ public class RaffleTicket {
         this.promotionalPeriod = promotionalPeriod;
     }
 
-    public Buyer getBuyer() {
-        return buyer;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setBuyer(Buyer buyer) {
-        this.buyer = buyer;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public boolean isWinner() {
@@ -67,14 +67,6 @@ public class RaffleTicket {
 
     public void setWinner(boolean winner) {
         this.winner = winner;
-    }
-
-    public String getTicket_number() {
-        return ticketNumber;
-    }
-
-    public void setTicket_number(String ticketNumber) {
-        this.ticketNumber = ticketNumber;
     }
 
     public String getTicketNumber() {

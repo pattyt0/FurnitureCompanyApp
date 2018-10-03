@@ -4,29 +4,27 @@ import com.prize.Prize;
 import com.prize.PrizeService;
 import com.promotionalPeriod.PromotionalPeriod;
 import com.promotionalPeriod.PromotionalPeriodService;
-import com.purchase.Purchase;
-import com.purchase.PurchaseService;
+import com.raffleTicket.models.FurniturePlayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RaffleTicketController {
 
     private RaffleTicketRepository raffleRepository;
+    @Autowired
+    RaffleTicketService raffleTicketService;
 
     @Autowired
     private PromotionalPeriodService promotionalPeriodService;
     @Autowired
     private PrizeService prizeService;
-    @Autowired
-    private PurchaseService purchaseService;
 
     @Autowired
     public RaffleTicketController(RaffleTicketRepository raffleRepository){
@@ -36,128 +34,43 @@ public class RaffleTicketController {
     /*
     Pick winners given a promotional period Id
      */
-    @RequestMapping(value= "/Raffle/PromotionalPeriods/{promotionalPeriodId}/Run", method= RequestMethod.GET)
-    public ResponseEntity<Object> runRaffle(@PathVariable Long promotionalPeriodId){
+    @RequestMapping(value= "/Raffle/PromotionalPeriods/{promotionalPeriodId}/Run", method= RequestMethod.POST)
+    public ResponseEntity<Object> runRaffle(@PathVariable Long promotionalPeriodId, @RequestBody List<FurniturePlayer> playerTickets){
 
-        //Get promotional period for {promotionalPeriodId}
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);
 
-        //Get list of prizes of promotional period
         if(promotionalPeriod.isPresent()) {
             PromotionalPeriod currentPromotionalPeriod = promotionalPeriod.get();
             List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(currentPromotionalPeriod);
-            //Get list of chances of buyers with purchases in promotional period date
-            List<Purchase> purchasesOfPromotionalPeriod = purchaseService.getAllPurchasesBetweenDates(
-                    currentPromotionalPeriod.getPromotionStart(),
-                    currentPromotionalPeriod.getPromotionEnd());
-            //1. Generate list of chances per buyer
-            List<RaffleTicket> chancesPerPromotionalPeriod = generateListOfChances(purchasesOfPromotionalPeriod);
-//        //2. Raffle
-//        List<BuyerChance> winners = RaffleUtils.raffleWinnersPerPrize(chancesPerPromotionalPeriod, prizes);
-//
-//        //Save winners per promotional period
-//        PromotionalPeriod promotionalPeriod = null;
-//        Buyer buyer = null;
-//        Prize prize = null;
-//        for (BuyerChance buyerChance:winners) {
-//            raffleTicket = new Raffle();
-//
-//            promotionalPeriod = new PromotionalPeriod(promotionalPeriodId);
-//            raffleTicket.setPromotionalPeriod(promotionalPeriod);
-//            buyer = new Buyer(buyerChance.getBuyer());
-//            raffleTicket.setPurchase(buyer);
-//            prize = new Prize(buyerChance.getPrizeId());
-//            raffleTicket.setPrize(prize);
-//
-//            raffleRepository.save(raffleTicket);
-//        }
 
-//        return new ResponseEntity<>(winners, HttpStatus.OK);
-//        return new ResponseEntity<>(promotionalPeriodId, HttpStatus.OK);
-            return new ResponseEntity<>(purchasesOfPromotionalPeriod, HttpStatus.OK);
+            List<RaffleTicket> raffleTickets = new ArrayList<>();
+            for (FurniturePlayer furniturePlayer:playerTickets) {
+                raffleTickets.addAll(raffleTicketService.generateRaffleTickets(furniturePlayer, playerTickets.size()));
+            }
+
+            List<RaffleTicket> winners = raffleTicketService.raffleWinnersPerPrize(raffleTickets, prizes);
+
+            //Save winners per promotional period
+//            PromotionalPeriod promotionalPeriod = null;
+//            Player player = null;
+//            Prize prize = null;
+//            for (RaffleTicket buyerChance:winners) {
+//                raffleTicket = new Raffle();
+//
+//                promotionalPeriod = new PromotionalPeriod(promotionalPeriodId);
+//                raffleTicket.setPromotionalPeriod(promotionalPeriod);
+//                player = new Player(buyerChance.getPlayer());
+//                raffleTicket.setPurchase(player);
+//                prize = new Prize(buyerChance.getPrizeId());
+//                raffleTicket.setPrize(prize);
+//
+//                raffleRepository.save(raffleTicket);
+//            }
+
+            return new ResponseEntity<>(promotionalPeriodId, HttpStatus.OK);
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
         }
-
     }
 
-//    @RequestMapping(value= "/", method= RequestMethod.POST)
-//    public ResponseEntity<List<BuyerChance>> runRaffle(@RequestBody Raffle[] raffleTicket){
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-//        //Returns just promotional period Id
-//        Raffle raffleResult = new Raffle();
-//        Long promotionalPeriodId = raffleTicket[0].getPromotionalPeriod().getPromotionalPeriodId();
-//        String promotionalPeriodStartDate = raffleTicket[0].getPromotionalPeriod().getPromotionStart();
-//        String promotionalPeriodEndDate = raffleTicket[0].getPromotionalPeriod().getPromotionEnd();
-//        List<Prize> prizes = new ArrayList<>();
-//        //Fill with request prizes
-//        for (Raffle rafflePrize:raffleTicket) {
-//            prizes.add(rafflePrize.getPrize());
-//        }
-//        //Get list of chances of buyers per promotional period
-//        //query  requesting purchases in a date range from promotional period
-//        //TODO:update get purchases query
-////        List<Purchase> currentChancesOfPromotionalPeriod = raffleRepository.findAllByPurchasesTimeBetween(promotionalPeriodStartDate, promotionalPeriodEndDate);
-//        List<Purchase> currentChancesOfPromotionalPeriod = new ArrayList<>();
-//        //1. Generate list of chances
-//        List<BuyerChance> chancesPerPromotionalPeriod = generateListOfChances(currentChancesOfPromotionalPeriod);
-//        //2. Raffle
-//        List<BuyerChance> winners = RaffleUtils.raffleWinnersPerPrize(chancesPerPromotionalPeriod, prizes);
-//
-//        //Save winners per promotional period
-//        PromotionalPeriod promotionalPeriod = null;
-//        Buyer buyer = null;
-//        Prize prize = null;
-//        for (BuyerChance buyerChance:winners) {
-//            raffleResult = new Raffle();
-//
-//            promotionalPeriod = new PromotionalPeriod(promotionalPeriodId);
-//            raffleResult.setPromotionalPeriod(promotionalPeriod);
-//            buyer = new Buyer(buyerChance.getBuyer());
-//            raffleResult.setPurchase(buyer);
-//            prize = new Prize(buyerChance.getPrizeId());
-//            raffleResult.setPrize(prize);
-//
-//            raffleRepository.save(raffleResult);
-//        }
-//
-//        return new ResponseEntity<>(winners, HttpStatus.OK);
-//    }
-
-    /*
-    Generate changes available per user for a promotional period
-     */
-    private List<RaffleTicket> generateListOfChances(List<Purchase> promotionalPurchases) {
-        //TODO:Additional set of Buyer chances per promotional period
-        List<RaffleTicket> totalChances = new ArrayList<>();
-
-        for (Purchase purchase:promotionalPurchases) {
-            List<RaffleTicket> buyerChances = getBuyerChancesPerFurnitureModel(purchase);
-            totalChances.addAll(buyerChances);
-        }
-        return totalChances;
-    }
-
-    /*
-    Buyer chances converter
-     */
-    private List<RaffleTicket> getBuyerChancesPerFurnitureModel(Purchase purchase) {
-        List<RaffleTicket> results = new ArrayList<>();
-        //get map of chances per model <furnitureId, chanceForFurnitureModel>
-        //TODO: load from a configuration file, all furniture model should have number of chances
-        Map<Long, Integer> chancesPerModel = RaffleUtils.loadConfigurationChanges();
-
-//        if(chancesPerModel.containsKey(purchase.getFurniture().getFurnitureId())){
-//            int furnitureAvailableChances = chancesPerModel.get(purchase.getFurniture().getFurnitureId());
-//            if(furnitureAvailableChances > 0){
-//                //Ask for model chance
-//                RaffleTicket buyerChance = null;
-//                for (int i=0; i<furnitureAvailableChances; i++) {
-////                    buyerChance = new RaffleTicket(purchase.getBuyer().getBuyer(), RaffleUtils.generateRaffleCode(purchase));
-//                    results.add(buyerChance);
-//                }
-//            }
-//        }
-        return results;
-    }
 }

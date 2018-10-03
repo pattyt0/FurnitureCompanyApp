@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LineItemRepository extends JpaRepository<LineItem, Long> {
-    List<Purchase> findAllByPurchase(Purchase purchase);
+    List<LineItem> findAllByPurchase(Purchase purchase);
 }
