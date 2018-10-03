@@ -1,5 +1,6 @@
 package com.raffleTicket;
 
+import com.player.Player;
 import com.prize.Prize;
 import com.prize.PrizeService;
 import com.promotionalPeriod.PromotionalPeriod;
@@ -51,21 +52,7 @@ public class RaffleTicketController {
             List<RaffleTicket> winners = raffleTicketService.raffleWinnersPerPrize(raffleTickets, prizes);
 
             //Save winners per promotional period
-//            PromotionalPeriod promotionalPeriod = null;
-//            Player player = null;
-//            Prize prize = null;
-//            for (RaffleTicket buyerChance:winners) {
-//                raffleTicket = new Raffle();
-//
-//                promotionalPeriod = new PromotionalPeriod(promotionalPeriodId);
-//                raffleTicket.setPromotionalPeriod(promotionalPeriod);
-//                player = new Player(buyerChance.getPlayer());
-//                raffleTicket.setPurchase(player);
-//                prize = new Prize(buyerChance.getPrizeId());
-//                raffleTicket.setPrize(prize);
-//
-//                raffleRepository.save(raffleTicket);
-//            }
+            raffleRepository.saveAll(raffleTickets);
 
             return new ResponseEntity<>(winners, HttpStatus.OK);
         }else{

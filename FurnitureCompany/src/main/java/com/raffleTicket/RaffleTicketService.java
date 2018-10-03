@@ -28,20 +28,23 @@ public class RaffleTicketService {
     /*
     ticketsPerPromotionalPeriod should be more than number of prizes
     DEVNOTE: how should be logic for the opposite use case
+    prizes are ordered by priority list
      */
     public static List<RaffleTicket> raffleWinnersPerPrize(List<RaffleTicket> ticketsPerPromotionalPeriod, List<Prize> prizes) {
         List<RaffleTicket> results = new ArrayList<>();
 
-        List<RaffleTicket> currentTickets = ticketsPerPromotionalPeriod;
-
+        List<Integer> winnerTickets = new ArrayList<>();
         RaffleTicket ticketWinner = null;
-
-        for(Prize prize:prizes) {
-            int randomNumber = (int) getRandomWinnerBetweenRange(0, currentTickets.size()-1);
+        while(winnerTickets.size() <= prizes.size()){
+            int randomNumber = (int) getRandomWinnerBetweenRange(0, ticketsPerPromotionalPeriod.size()-1);
             ticketWinner = ticketsPerPromotionalPeriod.get(randomNumber);
-            ticketWinner.setPrize(prize);
-            results.add(ticketWinner);
-            currentTickets.remove(randomNumber);
+            if(!ticketWinner.isWinner()){
+                ticketWinner.setPrize(prizes.get(winnerTickets.size()));
+                ticketWinner.setWinner(true);
+                results.add(ticketWinner);
+                winnerTickets.add(randomNumber);
+            }
+
         }
         return results;
     }

@@ -11,5 +11,5 @@ import java.util.List;
  * @param Long defines type of ID property
  */
 public interface PrizeRepository extends JpaRepository<Prize, Long> {
-    List<Prize> findAllByPromotionalPeriod(PromotionalPeriod promotionalPeriod);
+    List<Prize> findAllByPromotionalPeriodOrderByCategoryAsc(PromotionalPeriod promotionalPeriod);
 }

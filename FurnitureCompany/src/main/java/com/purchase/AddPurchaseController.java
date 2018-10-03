@@ -36,11 +36,16 @@ public class AddPurchaseController {
 
 
     @RequestMapping(value = "/Purchases/Buyers/{buyerId}/purchaseDate/{purchaseDate}", method = RequestMethod.POST)
-    public ResponseEntity<Purchase> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable LocalDate purchaseDate) {
-        Buyer buyer = new Buyer(buyerId);
+    public ResponseEntity<Object> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable LocalDate purchaseDate) {
+        Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
         //in progress purchase date should be epoch date
-        Purchase purchase = new Purchase(buyer, purchaseDate);
-        purchaseRepository.save(purchase);
-        return new ResponseEntity<>(purchase, HttpStatus.OK);
+        if(buyer.isPresent()){
+            Purchase purchase = new Purchase(buyer.get(), purchaseDate);
+            purchaseRepository.save(purchase);
+            return new ResponseEntity<>(purchase, HttpStatus.OK);
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Buyer not found");
+        }
+
     }
 }

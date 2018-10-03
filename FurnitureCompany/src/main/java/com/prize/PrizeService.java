@@ -13,7 +13,6 @@ public class PrizeService {
     PrizeRepository prizeRepository;
 
     public List<Prize> getPrizesByPromotionalPeriod(PromotionalPeriod promotionalPeriod) {
-        return prizeRepository.findAllByPromotionalPeriod(promotionalPeriod);
+        return prizeRepository.findAllByPromotionalPeriodOrderByCategoryAsc(promotionalPeriod);
     }
-
 }

@@ -6,12 +6,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "player")
-@SequenceGenerator(name = "player_gen", sequenceName = "player_gen")
+@SequenceGenerator(name = "player_gen", sequenceName = "player_gen", initialValue = 1000, allocationSize=1)
 @JsonIgnoreProperties({ "buyerId"})
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "player_gen")
-    @Column(name="raffle_ticket_id")
+    @Column(name="player_id")
     private Long playerId;
     private String firstName;
     private String lastName;

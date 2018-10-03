@@ -17,7 +17,7 @@ public class Prize implements Serializable, Comparable<Prize> {
 
     private String name;
 
-    private String quantity;
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "promotional_period_id")
@@ -43,12 +43,12 @@ public class Prize implements Serializable, Comparable<Prize> {
         this.name = name;
     }
 
-    public String getQuantity() {
-        return quantity;
+    public String getCategory() {
+        return category;
     }
 
-    public void setQuantity(String quantity) {
-        this.quantity = quantity;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public PromotionalPeriod getPromotionalPeriod() {
