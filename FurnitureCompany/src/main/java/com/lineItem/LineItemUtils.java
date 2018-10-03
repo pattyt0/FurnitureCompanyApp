@@ -12,7 +12,7 @@ Columns Order: furnitureId, furnitureCode, number of chances
  */
 public class LineItemUtils {
 
-    private static String filePath = "c:\\FurnitureCompanyApp\\ResourceConfiguration.txt";
+    private static String filePath = "C:\\FurnitureCompanyApp\\ResourceConfiguration.txt";
     private static int FIXED_COLUMN_NUMBER = 3;
 
     public static Map<Long, Integer> getConfiguredChancePerFurnitureModel() {

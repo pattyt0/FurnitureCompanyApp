@@ -3,7 +3,8 @@ package com.raffleTicket;
 import com.promotionalPeriod.PromotionalPeriod;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface RaffleTicketRepository extends JpaRepository<RaffleTicket, Long> {
-//    List<Purchase> findAllByPurchasesTimeBetween(String promotionalPeriodStartDate, String promotionalPeriodEndDate);
-    RaffleTicket findAllByPromotionalPeriod(PromotionalPeriod promotionalPeriod);
+     List<RaffleTicket> findAllByPromotionalPeriod(PromotionalPeriod promotionalPeriod);
 }

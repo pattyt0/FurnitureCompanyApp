@@ -1,6 +1,7 @@
 package com.raffleTicket;
 
 import com.player.Player;
+import com.player.PlayerService;
 import com.prize.Prize;
 import com.prize.PrizeService;
 import com.promotionalPeriod.PromotionalPeriod;
@@ -21,6 +22,8 @@ public class RaffleTicketController {
     private RaffleTicketRepository raffleRepository;
     @Autowired
     RaffleTicketService raffleTicketService;
+    @Autowired
+    PlayerService playerService;
 
     @Autowired
     private PromotionalPeriodService promotionalPeriodService;
@@ -40,21 +43,26 @@ public class RaffleTicketController {
 
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);
 
+        if(promotionalPeriod.isPresent() && !raffleRepository.findAllByPromotionalPeriod(promotionalPeriod.get()).isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period already run raffle.");
+        }
         if(promotionalPeriod.isPresent()) {
             PromotionalPeriod currentPromotionalPeriod = promotionalPeriod.get();
             List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(currentPromotionalPeriod);
+            if(!prizes.isEmpty()){
+                List<RaffleTicket> raffleTickets = new ArrayList<>();
+                for (FurniturePlayer furniturePlayer:playerTickets) {
+                    raffleTickets.addAll(raffleTicketService.generateRaffleTickets(furniturePlayer, playerTickets.size(), currentPromotionalPeriod));
+                    playerService.savePlayer(furniturePlayer.getPlayer());
+                }
 
-            List<RaffleTicket> raffleTickets = new ArrayList<>();
-            for (FurniturePlayer furniturePlayer:playerTickets) {
-                raffleTickets.addAll(raffleTicketService.generateRaffleTickets(furniturePlayer, playerTickets.size()));
+                List<RaffleTicket> winners = raffleTicketService.raffleWinnersPerPrize(raffleTickets, prizes);
+
+                raffleRepository.saveAll(raffleTickets);
+
+                return new ResponseEntity<>(winners, HttpStatus.OK);
             }
-
-            List<RaffleTicket> winners = raffleTicketService.raffleWinnersPerPrize(raffleTickets, prizes);
-
-            //Save winners per promotional period
-            raffleRepository.saveAll(raffleTickets);
-
-            return new ResponseEntity<>(winners, HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Prizes.");
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
         }

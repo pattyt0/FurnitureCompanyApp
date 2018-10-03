@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -36,11 +39,12 @@ public class AddPurchaseController {
 
 
     @RequestMapping(value = "/Purchases/Buyers/{buyerId}/purchaseDate/{purchaseDate}", method = RequestMethod.POST)
-    public ResponseEntity<Object> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable LocalDate purchaseDate) {
+    public ResponseEntity<Object> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable Long purchaseDate) {
+        LocalDate date = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDate), ZoneId.systemDefault()).toLocalDate();
         Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
         //in progress purchase date should be epoch date
         if(buyer.isPresent()){
-            Purchase purchase = new Purchase(buyer.get(), purchaseDate);
+            Purchase purchase = new Purchase(buyer.get(), date);
             purchaseRepository.save(purchase);
             return new ResponseEntity<>(purchase, HttpStatus.OK);
         }else{
