@@ -1,25 +1,24 @@
-package com.raffleTicket;
+package com.participant;
 
 import com.prize.Prize;
 import com.promotionalPeriod.PromotionalPeriod;
-import com.raffleTicket.models.FurniturePlayer;
+import com.purchase.Ticket;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class RaffleTicketService {
+public class ParticipantService {
     public static int startTicketSeries = 1000000;
 
-    public List<RaffleTicket> generateRaffleTickets(FurniturePlayer player, int totalTickets, PromotionalPeriod promotionalPeriod) {
-        List<RaffleTicket> tickets = new ArrayList<>();
+    public List<Participant> generateRaffleTickets(Ticket player, int totalTickets, PromotionalPeriod promotionalPeriod) {
+        List<Participant> tickets = new ArrayList<>();
 
-        RaffleTicket playerTicket = null;
+        Participant playerTicket = null;
         for (int i = 0; i < player.getNumberOfTickets(); i++) {
-            playerTicket = new RaffleTicket();
-            playerTicket.setPlayer(player.getPlayer());
+            playerTicket = new Participant();
+            playerTicket.setBuyer(player.getBuyer());
             playerTicket.setTicketNumber(Long.toString((long)(getRandomWinnerBetweenRange(startTicketSeries, startTicketSeries + (totalTickets - 1)))));
             playerTicket.setPromotionalPeriod(promotionalPeriod);
             tickets.add(playerTicket);
@@ -33,11 +32,11 @@ public class RaffleTicketService {
     DEVNOTE: how should be logic for the opposite use case
     prizes are ordered by priority list
      */
-    public static List<RaffleTicket> raffleWinnersPerPrize(List<RaffleTicket> ticketsPerPromotionalPeriod, List<Prize> prizes) {
-        List<RaffleTicket> results = new ArrayList<>();
+    public static List<Participant> raffleWinnersPerPrize(List<Participant> ticketsPerPromotionalPeriod, List<Prize> prizes) {
+        List<Participant> results = new ArrayList<>();
 
         List<Integer> winnerTickets = new ArrayList<>();
-        RaffleTicket ticketWinner = null;
+        Participant ticketWinner = null;
         while(winnerTickets.size() < prizes.size()){
             int randomNumber = (int) getRandomWinnerBetweenRange(0, ticketsPerPromotionalPeriod.size()-1);
             ticketWinner = ticketsPerPromotionalPeriod.get(randomNumber);

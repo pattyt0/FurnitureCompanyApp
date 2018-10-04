@@ -1,24 +1,24 @@
-package com.raffleTicket;
+package com.participant;
 
-import com.player.Player;
+import com.buyer.Buyer;
 import com.prize.Prize;
 import com.promotionalPeriod.PromotionalPeriod;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "raffle_ticket")
-@SequenceGenerator(name = "raffle_ticket_gen", sequenceName = "raffle_ticket_gen", initialValue = 1000, allocationSize=1)
-public class RaffleTicket {
+@Table(name = "participant")
+@SequenceGenerator(name = "participant_gen", sequenceName = "participant_gen", initialValue = 1000, allocationSize=1)
+public class Participant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "raffle_ticket_gen")
-    @Column(name="raffle_ticket_id")
-    private Long raffleTicketId;
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "participant_gen")
+    @Column(name="participant_id")
+    private Long participantId;
 
     @ManyToOne
-    @JoinColumn(name = "player_id")
-    private Player player;
+    @JoinColumn(name = "buyer_id")
+    private Buyer buyer;
 
     @ManyToOne
     @JoinColumn(name = "promotional_period_id")
@@ -33,16 +33,16 @@ public class RaffleTicket {
     @JoinColumn(name = "prize_id")
     private Prize prize;
 
-    public RaffleTicket() {
+    public Participant() {
 
     }
 
-    public Long getRaffleTicketId() {
-        return raffleTicketId;
+    public Long getParticipantId() {
+        return participantId;
     }
 
-    public void setRaffleTicketId(Long raffleTicketId) {
-        this.raffleTicketId = raffleTicketId;
+    public void setParticipantId(Long participantId) {
+        this.participantId = participantId;
     }
 
     public PromotionalPeriod getPromotionalPeriod() {
@@ -53,12 +53,12 @@ public class RaffleTicket {
         this.promotionalPeriod = promotionalPeriod;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Buyer getBuyer() {
+        return buyer;
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
+    public void setBuyer(Buyer buyer) {
+        this.buyer = buyer;
     }
 
     public boolean isWinner() {
