@@ -1,6 +1,5 @@
 package com.raffleTicket;
 
-import com.player.Player;
 import com.player.PlayerService;
 import com.prize.Prize;
 import com.prize.PrizeService;

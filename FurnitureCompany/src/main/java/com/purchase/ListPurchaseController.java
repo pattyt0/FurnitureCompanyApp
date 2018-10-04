@@ -50,15 +50,4 @@ public class ListPurchaseController {
         return new ResponseEntity<>(userRepository.findAllByPurchaseDateBetween(rangeStart, rangeEnd), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/Purchases/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}/RaffleTickets", method= RequestMethod.GET)
-    public ResponseEntity<List<Ticket>> getPurchasesBetweenPurchaseDateRageWithRaffleChances(@PathVariable Long purchaseDateStart, @PathVariable Long purchaseDateEnd) {
-        LocalDate rangeStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
-        LocalDate rangeEnd = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate();
-
-        List<Purchase> purchasesInTimeRange = userRepository.findAllByPurchaseDateBetween(rangeStart, rangeEnd);
-
-        List<Ticket> raffleTickets = lineItemService.fillRaffleTicketsChance(purchasesInTimeRange);
-
-        return new ResponseEntity<>(raffleTickets, HttpStatus.OK);
-    }
 }
