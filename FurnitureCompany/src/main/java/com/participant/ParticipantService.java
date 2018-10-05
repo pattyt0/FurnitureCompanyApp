@@ -1,8 +1,10 @@
 package com.participant;
 
+import com.buyer.Buyer;
 import com.prize.Prize;
 import com.promotionalPeriod.PromotionalPeriod;
 import com.purchase.Ticket;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service
 public class ParticipantService {
+    @Autowired
+    ParticipantRepository participantRepository;
     public static int startTicketSeries = 1000000;
 
     public List<Participant> generateRaffleTickets(Ticket player, int totalTickets, PromotionalPeriod promotionalPeriod) {
@@ -55,4 +59,7 @@ public class ParticipantService {
         return (int)(Math.random()*((max-min)+1))+min;
     }
 
+    public List<Participant> findByBuyerAndPromotionalPeriod(Buyer buyer, PromotionalPeriod promotionalPeriod) {
+        return participantRepository.findByBuyerAndPromotionalPeriod(buyer, promotionalPeriod);
+    }
 }

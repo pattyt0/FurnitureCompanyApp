@@ -1,5 +1,7 @@
 package com.participant;
 
+import com.buyer.Buyer;
+import com.buyer.BuyerService;
 import com.prize.Prize;
 import com.prize.PrizeService;
 import com.promotionalPeriod.PromotionalPeriod;
@@ -21,10 +23,11 @@ import java.util.Optional;
 @RestController
 public class ParticipantController {
 
-    private ParticipantRepository raffleRepository;
+    ParticipantRepository participantRepository;
     @Autowired
     ParticipantService raffleTicketService;
-
+    @Autowired
+    BuyerService buyerService;
     @Autowired
     private PromotionalPeriodService promotionalPeriodService;
     @Autowired
@@ -34,19 +37,19 @@ public class ParticipantController {
     private PurchaseService purchaseService;
 
     @Autowired
-    public ParticipantController(ParticipantRepository raffleRepository){
-        this.raffleRepository = raffleRepository;
+    public ParticipantController(ParticipantRepository participantRepository){
+        this.participantRepository = participantRepository;
     }
 
     /*
     Pick winners given a promotional period Id
     we request list of purchases from purchase service
      */
-    @RequestMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/Run", method= RequestMethod.PUT)
-    public ResponseEntity<Object> runRaffle(@PathVariable Long promotionalPeriodId){
+    @RequestMapping(value= "/Participants/{promotionalPeriodId}/winners", method= RequestMethod.PUT)
+    public ResponseEntity<Object> getWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId){
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);
 
-        if(promotionalPeriod.isPresent() && !raffleRepository.findAllByPromotionalPeriod(promotionalPeriod.get()).isEmpty()){
+        if(promotionalPeriod.isPresent() && !participantRepository.findAllByPromotionalPeriod(promotionalPeriod.get()).isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period already run raffle.");
         }
 
@@ -62,13 +65,25 @@ public class ParticipantController {
                     raffleTickets.addAll(raffleTicketService.generateRaffleTickets(participant, participants.size(), currentPromotionalPeriod));
                 }
                 List<Participant> winners = raffleTicketService.raffleWinnersPerPrize(raffleTickets, prizes);
-                raffleRepository.saveAll(raffleTickets);
+                participantRepository.saveAll(raffleTickets);
 
                 return new ResponseEntity<>(winners, HttpStatus.OK);
             }
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Prizes.");
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
+        }
+    }
+
+
+    @RequestMapping(value= "/Participants/Buyers/{buyerId}/Tickets", method= RequestMethod.GET)
+    public ResponseEntity<Object> getParticipantTickets(@PathVariable Long buyerId) {
+        Optional<Buyer> participant = buyerService.getBuyerById(buyerId);
+        if(participant.isPresent()){
+            List<Participant> tickets = participantRepository.findAllByBuyer(participant.get());
+            return new ResponseEntity<>(tickets, HttpStatus.OK);
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body("Buyer is not found");
         }
     }
 
