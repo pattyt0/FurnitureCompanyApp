@@ -27,7 +27,7 @@ public class PrizeController {
         this.prizeRepository = prizeRepository;
     }
 
-    @RequestMapping(value = "/PromotionalPeriods/{promotionalPeriodId}/Prizes", method = RequestMethod.POST)
+    @PostMapping(value = "/PromotionalPeriods/{promotionalPeriodId}/Prizes")
     public ResponseEntity<Object> addPrize(@PathVariable Long promotionalPeriodId, @RequestBody Prize prize) {
 
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodService.getPromotionalPeriodById(promotionalPeriodId);
@@ -42,7 +42,7 @@ public class PrizeController {
 
     }
 
-    @RequestMapping(method=RequestMethod.DELETE, value="/Prizes/{id}")
+    @DeleteMapping(value="/Prizes/{id}")
     public ResponseEntity<Prize> removePrizeById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             prizeRepository.deleteById(Long.valueOf(id));
@@ -51,7 +51,7 @@ public class PrizeController {
         return ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(value="/Prizes", method= RequestMethod.GET)
+    @GetMapping(value="/Prizes")
     public ResponseEntity<List<Prize>> listAllPrizes() {
         return new ResponseEntity<>(prizeRepository.findAll(), HttpStatus.OK);
     }

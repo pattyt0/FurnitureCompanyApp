@@ -23,13 +23,6 @@ public class ParticipantController {
     ParticipantService raffleTicketService;
     @Autowired
     BuyerService buyerService;
-    @Autowired
-    private PromotionalPeriodService promotionalPeriodService;
-    @Autowired
-    private PrizeService prizeService;
-
-    @Autowired
-    private PurchaseService purchaseService;
 
     @Autowired
     public ParticipantController(ParticipantRepository participantRepository){

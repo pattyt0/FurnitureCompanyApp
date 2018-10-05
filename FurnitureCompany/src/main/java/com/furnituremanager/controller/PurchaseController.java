@@ -29,7 +29,7 @@ public class PurchaseController {
         this.purchaseRepository = purchaseRepository;
     }
 
-    @RequestMapping(value = "/Purchase/Buyers/{buyerId}", method = RequestMethod.POST)
+    @PostMapping(value = "/Purchase/Buyers/{buyerId}")
     public ResponseEntity<Object> addPurchase(@PathVariable Long buyerId, @RequestBody Purchase purchase) {
         Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
         if(buyer.isPresent()){
@@ -42,7 +42,7 @@ public class PurchaseController {
     }
 
 
-    @RequestMapping(value = "/Purchases/Buyers/{buyerId}/purchaseDate/{purchaseDate}", method = RequestMethod.POST)
+    @PostMapping(value = "/Purchases/Buyers/{buyerId}/purchaseDate/{purchaseDate}")
     public ResponseEntity<Object> addPurchaseWithPurchaseDate(@PathVariable Long buyerId, @PathVariable Long purchaseDate) {
         LocalDate date = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDate), ZoneId.systemDefault()).toLocalDate();
         Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
@@ -57,7 +57,7 @@ public class PurchaseController {
 
     }
 
-    @RequestMapping(method= RequestMethod.DELETE, value="/Purchases/{id}")
+    @DeleteMapping(value="/Purchases/{id}")
     public ResponseEntity<Purchase> removePurchaseById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             purchaseRepository.deleteById(Long.valueOf(id));
@@ -66,12 +66,12 @@ public class PurchaseController {
         return ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(value="/Purchases", method= RequestMethod.GET)
+    @GetMapping(value="/Purchases")
     public ResponseEntity<List<Purchase>> listAllPurchases() {
         return new ResponseEntity<>(purchaseRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/Purchase/Buyers/{buyerId}/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}", method= RequestMethod.GET)
+    @GetMapping(value="/Purchase/Buyers/{buyerId}/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}")
     public ResponseEntity<List<Purchase>> listAllPurchasesByPurchaseDateBetween(@PathVariable Long buyerId, @PathVariable Long purchaseDateStart, @PathVariable Long purchaseDateEnd) {
         Buyer buyer = new Buyer(buyerId);
         LocalDate rangeStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
@@ -80,7 +80,7 @@ public class PurchaseController {
         return new ResponseEntity<>(purchaseRepository.findAllByBuyerAndPurchaseDateBetween(buyer, rangeStart, rangeEnd), HttpStatus.OK);
     }
 
-    @RequestMapping(value="/Purchases/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}", method= RequestMethod.GET)
+    @GetMapping(value="/Purchases/purchaseDate/{purchaseDateStart}/purchaseDate/{purchaseDateEnd}")
     public ResponseEntity<List<Purchase>> listAllPurchasesByPurchaseDateBetween(@PathVariable Long purchaseDateStart, @PathVariable Long purchaseDateEnd) {
         LocalDate rangeStart = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
         LocalDate rangeEnd = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate();

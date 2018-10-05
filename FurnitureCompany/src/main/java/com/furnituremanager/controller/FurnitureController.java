@@ -21,18 +21,18 @@ public class FurnitureController {
         this.furnitureRepository = furnitureRepository;
     }
 
-    @RequestMapping(value = "/Furniture", method = RequestMethod.POST)
+    @PostMapping(value = "/Furniture")
     public ResponseEntity<Furniture> addFurniture(@RequestBody Furniture furniture) {
         furnitureRepository.save(furniture);
         return new ResponseEntity<>(furniture, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/Furniture", method= RequestMethod.GET)
+    @GetMapping(value="/Furniture")
     public ResponseEntity<List<Furniture>> listAllFurniture() {
         return new ResponseEntity<>(furnitureRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(method=RequestMethod.DELETE, value="/Furniture/{id}")
+    @DeleteMapping(value="/Furniture/{id}")
     public ResponseEntity<Furniture> removeFurnitureById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             furnitureRepository.deleteById(Long.valueOf(id));

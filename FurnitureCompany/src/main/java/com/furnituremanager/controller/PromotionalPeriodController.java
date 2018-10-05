@@ -36,13 +36,13 @@ public class PromotionalPeriodController {
         this.promotionalPeriodRepository = promotionalPeriodRepository;
     }
 
-    @RequestMapping(value = "/PromotionalPeriods", method = RequestMethod.POST)
+    @PostMapping(value = "/PromotionalPeriods")
     public ResponseEntity<PromotionalPeriod> addPromotionalPeriod(@RequestBody PromotionalPeriod promotionalPeriod) {
         promotionalPeriodRepository.save(promotionalPeriod);
         return new ResponseEntity<>(promotionalPeriod, HttpStatus.OK);
     }
 
-    @RequestMapping(method=RequestMethod.DELETE, value="/PromotionalPeriods/{id}")
+    @DeleteMapping(value="/PromotionalPeriods/{id}")
     public ResponseEntity<PromotionalPeriod> removeFurnitureById(@PathVariable String id) {
         if(!StringUtils.isEmpty(id)) {
             promotionalPeriodRepository.deleteById(Long.valueOf(id));
@@ -51,18 +51,20 @@ public class PromotionalPeriodController {
         return ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(value="/PromotionalPeriods", method= RequestMethod.GET)
+    @GetMapping(value="/PromotionalPeriods")
     public ResponseEntity<List<PromotionalPeriod>> listAllPromotionalPeriod() {
         return new ResponseEntity<>(promotionalPeriodRepository.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(value= "/PromotionalPeriods/{PromotionalPeriodId}/Buyers/{buyerId}/tickets", method= RequestMethod.GET)
-    public ResponseEntity<Object> getParticipantTickets(@PathVariable Long PromotionalPeriodId, @PathVariable Long buyerId) {
-        Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodRepository.findById(PromotionalPeriodId);
+    @GetMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/Buyers/{buyerId}/tickets")
+    public ResponseEntity<Object> getParticipantTickets(@PathVariable Long promotionalPeriodId, @PathVariable Long buyerId) {
+        Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodRepository.findById(promotionalPeriodId);
         if(promotionalPeriod.isPresent()){
             Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
-            List<Participant> tickets = participantService.findByBuyerAndPromotionalPeriod(buyer.get(),promotionalPeriod.get());
-            return new ResponseEntity<>(tickets, HttpStatus.OK);
+            if(buyer.isPresent()) {
+                List<Participant> tickets = participantService.findByBuyerAndPromotionalPeriod(buyer.get(), promotionalPeriod.get());
+                return new ResponseEntity<>(tickets, HttpStatus.OK);
+            }
         }
         return ResponseEntity.status(HttpStatus.OK).body("Promotional Period is not found");
     }
@@ -71,7 +73,7 @@ public class PromotionalPeriodController {
     Pick winners given a promotional period Id
     we request list of purchases from purchase service
      */
-    @RequestMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/winners", method= RequestMethod.PUT)
+    @PutMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/winners")
     public ResponseEntity<Object> getWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId){
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodRepository.findById(promotionalPeriodId);
 
