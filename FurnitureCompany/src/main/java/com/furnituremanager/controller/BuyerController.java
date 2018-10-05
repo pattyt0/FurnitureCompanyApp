@@ -20,22 +20,22 @@ public class BuyerController {
         this.buyerRepository = buyerRepository;
     }
 
-    @PostMapping(value = "/Buyers")
+    @PostMapping(value = "/buyers")
     public ResponseEntity<Buyer> addBuyer(@RequestBody Buyer buyer) {
         buyerRepository.save(buyer);
         return new ResponseEntity<>(buyer, HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/Buyers/{id}")
-    public ResponseEntity<Buyer> removeBuyerById(@PathVariable String id) {
-        if(!StringUtils.isEmpty(id)) {
-            buyerRepository.deleteById(Long.valueOf(id));
+    @DeleteMapping(value="/buyers/{buyerId}")
+    public ResponseEntity<Buyer> removeBuyerById(@PathVariable String buyerId) {
+        if(!StringUtils.isEmpty(buyerId)) {
+            buyerRepository.deleteById(Long.valueOf(buyerId));
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value="/Buyers")
+    @GetMapping(value="/buyers")
     public ResponseEntity<List<Buyer>> listAllBuyers() {
         return new ResponseEntity<>(buyerRepository.findAll(), HttpStatus.OK);
     }

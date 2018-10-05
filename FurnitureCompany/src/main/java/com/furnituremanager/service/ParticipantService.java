@@ -16,18 +16,19 @@ import java.util.List;
 public class ParticipantService {
     @Autowired
     ParticipantRepository participantRepository;
-    public static int startTicketSeries = 1000000;
+    public int startTicketSeries = 1000000;
 
-    public List<Participant> generateRaffleTickets(Ticket player, int totalTickets, PromotionalPeriod promotionalPeriod) {
+    public List<Participant> generateRaffleTickets(Ticket player, PromotionalPeriod promotionalPeriod) {
         List<Participant> tickets = new ArrayList<>();
 
         Participant playerTicket = null;
         for (int i = 0; i < player.getNumberOfTickets(); i++) {
             playerTicket = new Participant();
             playerTicket.setBuyer(player.getBuyer());
-            playerTicket.setTicketNumber(Long.toString((long)(getRandomWinnerBetweenRange(startTicketSeries, startTicketSeries + (totalTickets - 1)))));
+            playerTicket.setTicketNumber(promotionalPeriod.getTitle() + startTicketSeries);
             playerTicket.setPromotionalPeriod(promotionalPeriod);
             tickets.add(playerTicket);
+            startTicketSeries++;
         }
 
         return tickets;

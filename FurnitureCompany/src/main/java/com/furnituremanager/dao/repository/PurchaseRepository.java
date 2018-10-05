@@ -10,4 +10,6 @@ import java.util.List;
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     List<Purchase> findAllByBuyerAndPurchaseDateBetween(Buyer buyerId, LocalDate purchaseDateStart, LocalDate purchaseDateEnd);
     List<Purchase> findAllByPurchaseDateBetween(LocalDate purchaseDateStart, LocalDate purchaseDateEnd);
+    List<Purchase> findAllByBuyerAndPurchaseDate(Buyer buyer, LocalDate startDate);
+    List<Purchase> findAllByBuyer(Buyer buyer);
 }

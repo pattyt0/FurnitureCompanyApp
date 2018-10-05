@@ -21,21 +21,21 @@ public class FurnitureController {
         this.furnitureRepository = furnitureRepository;
     }
 
-    @PostMapping(value = "/Furniture")
+    @PostMapping(value = "/furniture")
     public ResponseEntity<Furniture> addFurniture(@RequestBody Furniture furniture) {
         furnitureRepository.save(furniture);
         return new ResponseEntity<>(furniture, HttpStatus.OK);
     }
 
-    @GetMapping(value="/Furniture")
+    @GetMapping(value="/furniture")
     public ResponseEntity<List<Furniture>> listAllFurniture() {
         return new ResponseEntity<>(furnitureRepository.findAll(), HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/Furniture/{id}")
-    public ResponseEntity<Furniture> removeFurnitureById(@PathVariable String id) {
-        if(!StringUtils.isEmpty(id)) {
-            furnitureRepository.deleteById(Long.valueOf(id));
+    @DeleteMapping(value="/furniture/{furnitureId}")
+    public ResponseEntity<Furniture> removeFurnitureById(@PathVariable String furnitureId) {
+        if(!StringUtils.isEmpty(furnitureId)) {
+            furnitureRepository.deleteById(Long.valueOf(furnitureId));
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

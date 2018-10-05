@@ -1,8 +1,8 @@
 package com.furnituremanager.dao;
 
+import com.Application;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
-import com.Application;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

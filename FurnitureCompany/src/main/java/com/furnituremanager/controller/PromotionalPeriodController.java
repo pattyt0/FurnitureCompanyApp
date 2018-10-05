@@ -56,22 +56,46 @@ public class PromotionalPeriodController {
         return new ResponseEntity<>(promotionalPeriodRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * Returns tickets available per buyer for a promotional period
+     * Calculate current chances for a buyer to participate in a raffle
+     * @param promotionalPeriodId
+     * @param buyerId
+     * @return
+     */
     @GetMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/Buyers/{buyerId}/tickets")
-    public ResponseEntity<Object> getParticipantTickets(@PathVariable Long promotionalPeriodId, @PathVariable Long buyerId) {
+    public ResponseEntity<Object> getPromotionalPeriodTicketsByBuyer(@PathVariable Long promotionalPeriodId, @PathVariable Long buyerId) {
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodRepository.findById(promotionalPeriodId);
         if(promotionalPeriod.isPresent()){
             Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
             if(buyer.isPresent()) {
-                List<Participant> tickets = participantService.findByBuyerAndPromotionalPeriod(buyer.get(), promotionalPeriod.get());
-                return new ResponseEntity<>(tickets, HttpStatus.OK);
+                List<Ticket> promotionalPeriodTickets = purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriod.get().getPromotionStart(), promotionalPeriod.get().getPromotionEnd());
+                return new ResponseEntity<>(promotionalPeriodTickets, HttpStatus.OK);
             }
         }
         return ResponseEntity.status(HttpStatus.OK).body("Promotional Period is not found");
     }
 
-    /*
-    Pick winners given a promotional period Id
-    we request list of purchases from purchase service
+    /**
+     * once raffle per promotional period was run we could see total tickets that participating
+     * @param promotionalPeriodId
+     * @return
+     */
+    @GetMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/tickets")
+    public ResponseEntity<Object> getPromotionalPeriodTickets(@PathVariable Long promotionalPeriodId) {
+        Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodRepository.findById(promotionalPeriodId);
+        if(promotionalPeriod.isPresent()){
+            List<Participant> tickets = participantService.findAllByPromotionalPeriod(promotionalPeriod.get());
+            return new ResponseEntity<>(tickets, HttpStatus.OK);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Promotional Period is not found");
+    }
+
+    /**
+     * Pick winners given a promotional period Id
+     * we request list of purchases from purchase service
+     * @param promotionalPeriodId
+     * @return
      */
     @PutMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/winners")
     public ResponseEntity<Object> getWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId){
@@ -90,7 +114,7 @@ public class PromotionalPeriodController {
             if(!prizes.isEmpty()){
                 List<Participant> raffleTickets = new ArrayList<>();
                 for (Ticket participant:participants) {
-                    raffleTickets.addAll(participantService.generateRaffleTickets(participant, participants.size(), currentPromotionalPeriod));
+                    raffleTickets.addAll(participantService.generateRaffleTickets(participant, currentPromotionalPeriod));
                 }
                 List<Participant> winners = participantService.raffleWinnersPerPrize(raffleTickets, prizes);
                 participantService.saveAllParticipants(raffleTickets);
