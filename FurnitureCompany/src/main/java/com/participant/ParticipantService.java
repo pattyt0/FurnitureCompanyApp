@@ -32,7 +32,7 @@ public class ParticipantService {
     DEVNOTE: how should be logic for the opposite use case
     prizes are ordered by priority list
      */
-    public static List<Participant> raffleWinnersPerPrize(List<Participant> ticketsPerPromotionalPeriod, List<Prize> prizes) {
+    public List<Participant> raffleWinnersPerPrize(List<Participant> ticketsPerPromotionalPeriod, List<Prize> prizes) {
         List<Participant> results = new ArrayList<>();
 
         List<Integer> winnerTickets = new ArrayList<>();

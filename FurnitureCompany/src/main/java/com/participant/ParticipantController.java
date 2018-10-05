@@ -61,9 +61,7 @@ public class ParticipantController {
                 for (Ticket participant:participants) {
                     raffleTickets.addAll(raffleTicketService.generateRaffleTickets(participant, participants.size(), currentPromotionalPeriod));
                 }
-
                 List<Participant> winners = raffleTicketService.raffleWinnersPerPrize(raffleTickets, prizes);
-
                 raffleRepository.saveAll(raffleTickets);
 
                 return new ResponseEntity<>(winners, HttpStatus.OK);
