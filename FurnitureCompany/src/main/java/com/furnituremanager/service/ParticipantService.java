@@ -1,11 +1,10 @@
 package com.furnituremanager.service;
 
 import com.furnituremanager.dao.Participant;
-import com.furnituremanager.dao.repository.ParticipantRepository;
-import com.furnituremanager.dao.Buyer;
 import com.furnituremanager.dao.Prize;
 import com.furnituremanager.dao.PromotionalPeriod;
 import com.furnituremanager.dao.Ticket;
+import com.furnituremanager.dao.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,10 +59,6 @@ public class ParticipantService {
 
     public static double getRandomWinnerBetweenRange(double min, double max){
         return (int)(Math.random()*((max-min)+1))+min;
-    }
-
-    public List<Participant> findByBuyerAndPromotionalPeriod(Buyer buyer, PromotionalPeriod promotionalPeriod) {
-        return participantRepository.findByBuyerAndPromotionalPeriod(buyer, promotionalPeriod);
     }
 
     //TODO: add flag in promotional period to know if it has run already

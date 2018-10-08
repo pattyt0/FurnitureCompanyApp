@@ -44,4 +44,14 @@ public class PurchaseService {
 
         return raffleTickets;
     }
+
+    public Purchase findPurchaseById(Long purchaseId) {
+        Optional<Purchase> purchase = purchaseRepository.findById(purchaseId);
+        if(purchase.isPresent()){
+            return purchase.get();
+        }
+        else{
+            return null;
+        }
+    }
 }

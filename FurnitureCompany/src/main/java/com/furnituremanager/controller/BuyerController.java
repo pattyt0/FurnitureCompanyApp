@@ -5,10 +5,10 @@ import com.furnituremanager.dao.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -27,12 +27,14 @@ public class BuyerController {
     }
 
     @DeleteMapping(value="/buyers/{buyerId}")
-    public ResponseEntity<Buyer> removeBuyerById(@PathVariable String buyerId) {
-        if(!StringUtils.isEmpty(buyerId)) {
+    public ResponseEntity<Buyer> removeBuyerById(@PathVariable Long buyerId) {
+        Optional<Buyer> buyer = buyerRepository.findById(buyerId);
+        if(buyer.isPresent()) {
             buyerRepository.deleteById(Long.valueOf(buyerId));
             return ResponseEntity.ok().build();
+        }else {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
     }
 
     @GetMapping(value="/buyers")
