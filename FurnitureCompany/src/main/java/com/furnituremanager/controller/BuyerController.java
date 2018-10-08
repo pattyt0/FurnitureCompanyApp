@@ -20,6 +20,11 @@ public class BuyerController {
         this.buyerRepository = buyerRepository;
     }
 
+    @GetMapping(value = "/")
+    public String index() {
+        return "Greetings from Spring Boot!";
+    }
+
     @PostMapping(value = "/buyers")
     public ResponseEntity<Buyer> addBuyer(@RequestBody Buyer buyer) {
         buyerRepository.save(buyer);
