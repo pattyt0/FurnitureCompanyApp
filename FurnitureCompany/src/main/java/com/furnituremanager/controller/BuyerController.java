@@ -43,7 +43,7 @@ public class BuyerController {
     }
 
     @GetMapping(value="/buyers")
-    public ResponseEntity<List<Buyer>> listAllBuyers() {
+    public ResponseEntity<List<Buyer>> listAllBuyers(@RequestParam(value="from", required = false) Long purchaseDateStart) {
         return new ResponseEntity<>(buyerRepository.findAll(), HttpStatus.OK);
     }
 }

@@ -55,13 +55,24 @@ public class PurchaseController {
         return ResponseEntity.notFound().build();
     }
 
+    /**
+     * Assume we always receive UNIX timestamp
+     * @param buyerId
+     * @param purchaseDateStart
+     * @param purchaseDateEnd
+     * @return
+     */
     @GetMapping(value="/buyers/{buyerId}/purchases")
-    public ResponseEntity<List<Purchase>> listAllPurchasesByBuyerAndPurchaseDateBetween(@PathVariable Long buyerId, @RequestParam("from") Long purchaseDateStart, @RequestParam("to") Long purchaseDateEnd) {
+    public ResponseEntity<List<Purchase>> listAllPurchasesByBuyerAndPurchaseDateBetween(@PathVariable Long buyerId, @RequestParam(value="from", required = false) Long purchaseDateStart, @RequestParam(value="to", required = false) Long purchaseDateEnd) {
         Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
-        if(buyer.isPresent() && purchaseDateStart != null){
-            LocalDate startDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate();
-            LocalDate endDate = LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate();
-            if(startDate.equals(endDate)){
+        if(buyer.isPresent() && purchaseDateStart == null && purchaseDateEnd == null) {
+            return new ResponseEntity<>(purchaseRepository.findAllByBuyer(buyer.get()), HttpStatus.OK);
+        }
+
+        if(buyer.isPresent() && (purchaseDateStart != null || purchaseDateEnd !=null)){
+            LocalDate startDate = purchaseDateStart!=null? LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateStart), ZoneId.systemDefault()).toLocalDate():null;
+            LocalDate endDate = purchaseDateEnd!=null?LocalDateTime.ofInstant(Instant.ofEpochSecond(purchaseDateEnd), ZoneId.systemDefault()).toLocalDate():null;
+            if(startDate.equals(endDate) || endDate==null){
                 return new ResponseEntity<>(purchaseRepository.findAllByBuyerAndPurchaseDate(buyer.get(), startDate), HttpStatus.OK);
             }
 
