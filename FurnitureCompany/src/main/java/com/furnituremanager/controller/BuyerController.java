@@ -3,11 +3,12 @@ package com.furnituremanager.controller;
 import com.furnituremanager.dao.Buyer;
 import com.furnituremanager.dao.repository.BuyerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -43,7 +44,8 @@ public class BuyerController {
     }
 
     @GetMapping(value="/buyers")
-    public ResponseEntity<List<Buyer>> listAllBuyers(@RequestParam(value="from", required = false) Long purchaseDateStart) {
-        return new ResponseEntity<>(buyerRepository.findAll(), HttpStatus.OK);
+    public Page<Buyer> listAllBuyers(Pageable pageable) {
+        Page<Buyer> buyers = buyerRepository.findAll(pageable);
+        return buyers;
     }
 }
