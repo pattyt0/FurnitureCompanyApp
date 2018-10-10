@@ -25,6 +25,7 @@ public class FurnitureController {
 
     @DeleteMapping(value="/furniture/{furnitureId}")
     public Furniture removeFurnitureById(@PathVariable Long furnitureId) throws EntityNotFoundException {
+        //TODO: verify non relationship exists with this
         Furniture furniture = furnitureService.findFurniture(furnitureId);
         furnitureService.deleteFurniture(furniture);
         return furniture;

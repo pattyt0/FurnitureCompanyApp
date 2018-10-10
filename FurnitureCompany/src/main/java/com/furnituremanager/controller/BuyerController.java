@@ -20,7 +20,7 @@ public class BuyerController {
     }
 
     /**
-     * TODO:make this return DTO Object(this one should have fields filtered from DAO)
+     * TODO: make this return DTO Object(this one should have fields filtered from DAO)
      * @param buyer
      * @return
      */
@@ -40,4 +40,5 @@ public class BuyerController {
     public Page<Buyer> listAllBuyers(Pageable pageable) {
         return buyerService.getAllBuyers(pageable);
     }
+
 }

@@ -18,7 +18,7 @@ public class EntityNotFoundException extends Exception {
     }
 
     private static <K, V> Map<K, V> toMap(
-            Class<K> keyType, Class<V> valueType, Object... entries) {
+            Class<K> keyType, Class<V> valueType, String... entries) {
         if (entries.length % 2 == 1)
             throw new IllegalArgumentException("Invalid entries");
         return IntStream.range(0, entries.length / 2).map(i -> i * 2)

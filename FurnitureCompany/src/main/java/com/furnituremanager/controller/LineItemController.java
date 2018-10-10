@@ -18,7 +18,7 @@ public class LineItemController {
     @Autowired
     private LineItemService lineItemService;
     @Autowired
-    PurchaseService purchaseService;
+    private PurchaseService purchaseService;
 
     @PostMapping(value = "/purchases/{purchaseId}/lineItems")
     public ResponseEntity<LineItem> addLineItem(@PathVariable Long purchaseId, @RequestBody LineItem lineItem) throws EntityNotFoundException {
