@@ -1,7 +1,5 @@
 package com.furnituremanager.errormanager;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import java.time.LocalDateTime;
@@ -9,12 +7,11 @@ import java.time.LocalDateTime;
 /**
  * RFC 7807 specification
  */
-@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.CUSTOM, property = "error", visible = true)
 public class ErrorMessage {
     private String detail;
     private String type;
     private String title;
-    private HttpStatus status;
+    private String status;
     private String instance;
 
     /**
@@ -28,7 +25,7 @@ public class ErrorMessage {
      * TODO: implement
      * @param status
      */
-    public ErrorMessage(HttpStatus status) {
+    public ErrorMessage(String status) {
         this();
         this.status = status;
     }
@@ -39,7 +36,7 @@ public class ErrorMessage {
      * @param error
      * @param ex
      */
-    public ErrorMessage(HttpStatus status, String error, HttpMessageNotReadableException ex) {
+    public ErrorMessage(String status, String error, HttpMessageNotReadableException ex) {
         this();
         this.status = status;
         this.instance = ex.getMessage().toString();
@@ -69,11 +66,11 @@ public class ErrorMessage {
         this.title = title;
     }
 
-    public HttpStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
