@@ -1,35 +1,30 @@
 package com.furnituremanager.controller;
 
-import com.furnituremanager.dao.Buyer;
 import com.furnituremanager.dao.LineItem;
 import com.furnituremanager.dao.Purchase;
-import com.furnituremanager.dao.repository.LineItemRepository;
+import com.furnituremanager.errormanager.EntityNotFoundException;
+import com.furnituremanager.service.LineItemService;
 import com.furnituremanager.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class LineItemController {
-    private LineItemRepository lineItemRepository;
+    @Autowired
+    private LineItemService lineItemService;
     @Autowired
     PurchaseService purchaseService;
 
-    @Autowired
-    public LineItemController(LineItemRepository lineItemRepository){
-        this.lineItemRepository = lineItemRepository;
-    }
-
     @PostMapping(value = "/purchases/{purchaseId}/lineItems")
-    public ResponseEntity<LineItem> addLineItem(@PathVariable Long purchaseId, @RequestBody LineItem lineItem) {
-        Purchase purchase = purchaseService.findPurchaseById(purchaseId);
+    public ResponseEntity<LineItem> addLineItem(@PathVariable Long purchaseId, @RequestBody LineItem lineItem) throws EntityNotFoundException {
+        Purchase purchase = purchaseService.getPurchase(purchaseId);
         if(purchase != null){
-            lineItemRepository.save(lineItem);
+            lineItemService.saveLineItem(lineItem);
             return new ResponseEntity<>(lineItem, HttpStatus.OK);
         }else{
             return ResponseEntity.notFound().build();
@@ -37,28 +32,21 @@ public class LineItemController {
     }
 
     @DeleteMapping(value="/purchases/{purchaseId}/lineItems/{lineItemId}")
-    public ResponseEntity<Buyer> removeLineItemById(@PathVariable Long purchaseId, @PathVariable Long lineItemId) {
-        Purchase purchase = purchaseService.findPurchaseById(purchaseId);
-        if(purchase == null){
-            return ResponseEntity.notFound().build();
-        }
+    public LineItem removeLineItemById(@PathVariable Long purchaseId, @PathVariable Long lineItemId) throws EntityNotFoundException {
+        Purchase purchase = purchaseService.getPurchase(purchaseId);
 
-        Optional<LineItem> lineItem = lineItemRepository.findById(lineItemId);
-        if(lineItem.isPresent()) {
-            lineItemRepository.deleteById(lineItemId);
-            return ResponseEntity.ok().build();
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        if(purchase == null) { throw new EntityNotFoundException(LineItem.class, "id", lineItemId.toString()); }
+
+        LineItem lineItem = lineItemService.getLineItem(lineItemId);
+        lineItemService.deleteLineItem(lineItem);
+        return lineItem;
     }
 
     @GetMapping(value="/purchases/{purchaseId}/lineItems")
-    public ResponseEntity<List<LineItem>> listAllLineItems(@PathVariable Long purchaseId) {
-        Purchase purchase = purchaseService.findPurchaseById(purchaseId);
-        if(purchase == null){
-            return ResponseEntity.notFound().build();
-        }
+    public Page<LineItem> listAllLineItems(@PathVariable Long purchaseId, Pageable pageable) throws EntityNotFoundException {
+        Purchase purchase = purchaseService.getPurchase(purchaseId);
+        if(purchase == null){        return Page.empty();    }
 
-        return new ResponseEntity<>(lineItemRepository.findAll(), HttpStatus.OK);
+        return lineItemService.getLineItemsByPurchase(pageable);
     }
 }

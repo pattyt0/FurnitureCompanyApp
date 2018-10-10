@@ -3,6 +3,7 @@ package com.furnituremanager.service;
 import com.furnituremanager.dao.repository.PurchaseRepository;
 import com.furnituremanager.dao.Ticket;
 import com.furnituremanager.dao.Purchase;
+import com.furnituremanager.errormanager.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,13 +46,9 @@ public class PurchaseService {
         return raffleTickets;
     }
 
-    public Purchase findPurchaseById(Long purchaseId) {
+    public Purchase getPurchase(Long purchaseId) throws EntityNotFoundException {
         Optional<Purchase> purchase = purchaseRepository.findById(purchaseId);
-        if(purchase.isPresent()){
-            return purchase.get();
-        }
-        else{
-            return null;
-        }
+        if(!purchase.isPresent()){ throw new EntityNotFoundException(Purchase.class, "id", purchaseId.toString()); }
+        return purchase.get();
     }
 }

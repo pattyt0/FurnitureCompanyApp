@@ -2,6 +2,7 @@ package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.*;
 import com.furnituremanager.dao.repository.PromotionalPeriodRepository;
+import com.furnituremanager.errormanager.EntityNotFoundException;
 import com.furnituremanager.service.BuyerService;
 import com.furnituremanager.service.ParticipantService;
 import com.furnituremanager.service.PrizeService;
@@ -64,11 +65,11 @@ public class PromotionalPeriodController {
      * @return
      */
     @GetMapping(value= "/PromotionalPeriods/{promotionalPeriodId}/Buyers/{buyerId}/tickets")
-    public ResponseEntity<Object> getPromotionalPeriodTicketsByBuyer(@PathVariable Long promotionalPeriodId, @PathVariable Long buyerId) {
+    public ResponseEntity<Object> getPromotionalPeriodTicketsByBuyer(@PathVariable Long promotionalPeriodId, @PathVariable Long buyerId) throws EntityNotFoundException {
         Optional<PromotionalPeriod> promotionalPeriod = promotionalPeriodRepository.findById(promotionalPeriodId);
         if(promotionalPeriod.isPresent()){
-            Optional<Buyer> buyer = buyerService.getBuyerById(buyerId);
-            if(buyer.isPresent()) {
+            Buyer buyer = buyerService.getBuyer(buyerId);
+            if(buyer != null) {
                 List<Ticket> promotionalPeriodTickets = purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriod.get().getPromotionStart(), promotionalPeriod.get().getPromotionEnd());
                 return new ResponseEntity<>(promotionalPeriodTickets, HttpStatus.OK);
             }

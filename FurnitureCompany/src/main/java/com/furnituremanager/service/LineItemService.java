@@ -1,16 +1,20 @@
 package com.furnituremanager.service;
 
 import com.furnituremanager.dao.repository.LineItemRepository;
+import com.furnituremanager.errormanager.EntityNotFoundException;
 import com.utils.LineItemUtils;
 import com.furnituremanager.dao.Purchase;
 import com.furnituremanager.dao.Ticket;
 import com.furnituremanager.dao.LineItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class LineItemService {
@@ -48,5 +52,23 @@ public class LineItemService {
             }
         }
         return result;
+    }
+
+    public LineItem saveLineItem(LineItem lineItem) {
+        return lineItemRepository.save(lineItem);
+    }
+
+    public LineItem getLineItem(Long lineItemId) throws EntityNotFoundException {
+        Optional<LineItem> lineItem = lineItemRepository.findById(lineItemId);
+        if(!lineItem.isPresent()){throw new EntityNotFoundException(LineItem.class, "Id", lineItemId.toString());  }
+        return lineItem.get();
+    }
+
+    public void deleteLineItem(LineItem lineItemId) {
+        lineItemRepository.delete(lineItemId);
+    }
+
+    public Page<LineItem> getLineItemsByPurchase(Pageable pageable) {
+        return lineItemRepository.findAll(pageable);
     }
 }

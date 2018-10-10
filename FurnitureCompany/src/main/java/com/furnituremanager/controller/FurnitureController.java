@@ -1,43 +1,37 @@
 package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.Furniture;
-import com.furnituremanager.dao.repository.FurnitureRepository;
+import com.furnituremanager.errormanager.EntityNotFoundException;
+import com.furnituremanager.service.FurnitureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class FurnitureController {
 
-    private FurnitureRepository furnitureRepository;
-
     @Autowired
-    public FurnitureController(FurnitureRepository furnitureRepository){
-        this.furnitureRepository = furnitureRepository;
-    }
+    private FurnitureService furnitureService;
 
     @PostMapping(value = "/furniture")
     public ResponseEntity<Furniture> addFurniture(@RequestBody Furniture furniture) {
-        furnitureRepository.save(furniture);
+        furnitureService.saveFurniture(furniture);
         return new ResponseEntity<>(furniture, HttpStatus.OK);
     }
 
-    @GetMapping(value="/furniture")
-    public ResponseEntity<List<Furniture>> listAllFurniture() {
-        return new ResponseEntity<>(furnitureRepository.findAll(), HttpStatus.OK);
+    @DeleteMapping(value="/furniture/{furnitureId}")
+    public Furniture removeFurnitureById(@PathVariable Long furnitureId) throws EntityNotFoundException {
+        Furniture furniture = furnitureService.findFurniture(furnitureId);
+        furnitureService.deleteFurniture(furniture);
+        return furniture;
     }
 
-    @DeleteMapping(value="/furniture/{furnitureId}")
-    public ResponseEntity<Furniture> removeFurnitureById(@PathVariable String furnitureId) {
-        if(!StringUtils.isEmpty(furnitureId)) {
-            furnitureRepository.deleteById(Long.valueOf(furnitureId));
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping(value="/furniture")
+    public Page<Furniture> listAllFurniture(Pageable pageable) {
+        return furnitureService.findAllFurniture(pageable);
     }
 }

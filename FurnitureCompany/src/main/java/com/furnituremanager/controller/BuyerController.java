@@ -1,51 +1,43 @@
 package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.Buyer;
-import com.furnituremanager.dao.repository.BuyerRepository;
+import com.furnituremanager.errormanager.EntityNotFoundException;
+import com.furnituremanager.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class BuyerController {
-    private BuyerRepository buyerRepository;
-
     @Autowired
-    public BuyerController(BuyerRepository buyerRepository){
-        this.buyerRepository = buyerRepository;
-    }
+    private BuyerService buyerService;
 
     @GetMapping(value = "/")
     public String index() {
-        return "Greetings from Spring Boot!";
+        return "Greetings from Furniture manager!";
     }
 
+    /**
+     * TODO:make this return DTO Object(this one should have fields filtered from DAO)
+     * @param buyer
+     * @return
+     */
     @PostMapping(value = "/buyers")
-    public ResponseEntity<Buyer> addBuyer(@RequestBody Buyer buyer) {
-        buyerRepository.save(buyer);
-        return new ResponseEntity<>(buyer, HttpStatus.OK);
+    public Buyer addBuyer(@RequestBody Buyer buyer) {
+        return buyerService.saveBuyer(buyer);
     }
 
     @DeleteMapping(value="/buyers/{buyerId}")
-    public ResponseEntity<Buyer> removeBuyerById(@PathVariable Long buyerId) {
-        Optional<Buyer> buyer = buyerRepository.findById(buyerId);
-        if(buyer.isPresent()) {
-            buyerRepository.deleteById(Long.valueOf(buyerId));
-            return ResponseEntity.ok().build();
-        }else {
-            return ResponseEntity.notFound().build();
-        }
+    public Buyer removeBuyerById(@PathVariable Long buyerId) throws EntityNotFoundException {
+        Buyer buyer = buyerService.getBuyer(buyerId);
+        buyerService.deleteBuyer(buyer);
+        return buyer;
     }
 
     @GetMapping(value="/buyers")
     public Page<Buyer> listAllBuyers(Pageable pageable) {
-        Page<Buyer> buyers = buyerRepository.findAll(pageable);
-        return buyers;
+        return buyerService.getAllBuyers(pageable);
     }
 }
