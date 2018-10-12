@@ -31,7 +31,7 @@ public class ErrorMessage {
     }
 
     /**
-     * TODO: implement contructor
+     * TODO: implement constructor
      * @param status
      * @param error
      * @param ex
