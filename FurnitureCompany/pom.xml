@@ -60,6 +60,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.9.5</version>
         </dependency>
+        <!-- spring cloud client -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -67,7 +72,6 @@
         <start-class>com.Application</start-class>
         <java.version>1.8</java.version>
     </properties>
-
 
     <build>
         <plugins>
