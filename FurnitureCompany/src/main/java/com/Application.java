@@ -4,10 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.utils.LocalDateDeserializer;
 import com.utils.LocalDateSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -60,4 +64,17 @@ public class Application {
                 .build();
     }
 
+}
+
+@RefreshScope
+@RestController
+class MessageRestController {
+
+    @Value("${message:Hello default}")
+    private String message;
+
+    @RequestMapping("/message")
+    String getMessage() {
+        return this.message;
+    }
 }
