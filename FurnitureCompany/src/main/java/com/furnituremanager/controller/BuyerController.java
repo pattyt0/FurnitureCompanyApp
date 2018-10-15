@@ -4,11 +4,13 @@ import com.furnituremanager.dao.Buyer;
 import com.furnituremanager.errormanager.EntityNotFoundException;
 import com.furnituremanager.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
+@EnableDiscoveryClient
 @RestController
 public class BuyerController {
     @Autowired
