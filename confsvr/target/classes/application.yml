@@ -6,6 +6,6 @@ spring:
     config:
       server:
         git:
+          skip-ssl-validation: true
           uri: https://github.com/pattyt0/configsvr.git
-          username: pattyt0
-          password: c0nfianz49
+          strictHostKeyChecking: false
