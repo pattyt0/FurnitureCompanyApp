@@ -1,4 +1,4 @@
-package com.furnituremanager.demo;
+package com.furnituremanager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

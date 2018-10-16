@@ -1,0 +1,40 @@
+## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/furniture_company
+    username: postgres
+    password: p0stgresit0
+# The SQL dialect makes Hibernate generate better SQL for the chosen database even though it is DB agnostic
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+  jpa:
+    properties.hibernate.id.new_generator_mappings:  false
+    properties.hibernate.format_sql: true
+
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+  # Hibernate ddl auto (create, create-drop, validate, update)
+  # Creates tables based on the entity classes in the App
+    hibernate.ddl-auto: update
+logging:
+  level: DEBUG
+  level.org.hibernate.SQL: DEBUG
+  level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+spring.jackson.serialization.write_dates_as_timestamps: false
+
+#spring cloud configuration properties
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

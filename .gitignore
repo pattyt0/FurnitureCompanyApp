@@ -35,4 +35,9 @@ Thumbs.db
 /FurnitureCompanyUI/node_modules
 
 # Back-end
-/FurnitureCompany/target
+*/target
+target/*
+.target
+
+.mvn/*
+*/mvn

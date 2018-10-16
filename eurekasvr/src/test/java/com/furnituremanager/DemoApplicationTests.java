@@ -1,4 +1,4 @@
-package com.furnituremanager.demo;
+package com.furnituremanager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
