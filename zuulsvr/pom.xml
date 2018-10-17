@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com</groupId>
-	<artifactId>furnituremanager</artifactId>
+	<artifactId>zuulservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>furnituremanager</name>
+	<name>FurnitureManagerApplication</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
