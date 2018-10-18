@@ -38,10 +38,3 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
-
-zuul:
-  routes:
-    users:
-      path: /buyers/**
-      sensitiveHeaders: Cookie,Set-Cookie,Authorization
-      url: https://www.furnituremanager.com/buyers

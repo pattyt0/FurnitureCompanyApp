@@ -9,9 +9,12 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
 
-
 zuul:
-  routes:
-    buyers:
-      path: /buyersitos/**
-      url: http://localhost:1234/api/buyers
+  ignoredServices: "*"
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
