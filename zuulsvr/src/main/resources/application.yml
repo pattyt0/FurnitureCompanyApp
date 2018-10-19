@@ -11,8 +11,20 @@ eureka:
 
 zuul:
   ignoredServices: "*"
-
-
+  prefix: /furnitureShop
+  routes:
+    buyers:
+      path: /buyers/**
+      url: http://localhost:1234/api/buyers
+    furniture:
+      path: /furniture/**
+      url: http://localhost:1234/api/furniture
+    purchases:
+      path: /purchases/**
+      url: http://localhost:1234/api/purchases
+    PromotionalPeriods:
+      path: /promotionalPeriods/**
+      url: http://localhost:1234/api/promotionalPeriods
 
 management:
   endpoints:

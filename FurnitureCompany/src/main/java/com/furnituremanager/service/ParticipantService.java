@@ -66,6 +66,10 @@ public class ParticipantService {
         return participantRepository.findAllByPromotionalPeriod(promotionalPeriod);
     }
 
+    public List<Participant> getParticipantsByPromotionalPeriodAndHasWon(PromotionalPeriod promotionalPeriod) {
+        return participantRepository.findAllByPromotionalPeriodAndPrizeNotNull(promotionalPeriod);
+    }
+
     public void saveAllParticipants(List<Participant> participants) {
         participantRepository.saveAll(participants);
     }

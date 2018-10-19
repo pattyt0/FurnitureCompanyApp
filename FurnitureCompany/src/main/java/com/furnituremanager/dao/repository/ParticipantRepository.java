@@ -11,4 +11,6 @@ public interface ParticipantRepository extends JpaRepository<Participant, Long> 
     List<Participant> findAllByPromotionalPeriod(PromotionalPeriod promotionalPeriod);
     List<Participant> findAllByBuyer(Buyer buyer);
     List<Participant> findByBuyerAndPromotionalPeriod(Buyer buyer, PromotionalPeriod promotionalPeriod);
+
+    List<Participant> findAllByPromotionalPeriodAndPrizeNotNull(PromotionalPeriod promotionalPeriod);
 }
