@@ -13,6 +13,7 @@ zuul:
   ignoredServices: "*"
 
 
+
 management:
   endpoints:
     web:

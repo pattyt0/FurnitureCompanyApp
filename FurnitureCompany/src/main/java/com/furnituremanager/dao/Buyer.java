@@ -20,9 +20,6 @@ public class Buyer {
     private String personalId;
 
     public Buyer() {}
-    public Buyer(Long buyerId) {
-        this.buyerId = buyerId;
-    }
 
     public Long getBuyerId() {
         return buyerId;
