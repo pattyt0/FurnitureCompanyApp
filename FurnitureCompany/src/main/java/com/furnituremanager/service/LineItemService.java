@@ -22,6 +22,10 @@ public class LineItemService {
     @Autowired
     LineItemRepository lineItemRepository;
 
+    public LineItemService(LineItemRepository lineItemRepository) {
+        this.lineItemRepository = lineItemRepository;
+    }
+
     public List<Ticket> fillRaffleTicketsChance(List<Purchase> purchasesInTimeRange) {
         List<Ticket> promotionalPurchase = new ArrayList<>();
 
