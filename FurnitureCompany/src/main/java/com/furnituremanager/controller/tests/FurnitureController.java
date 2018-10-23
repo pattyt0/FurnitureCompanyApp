@@ -1,4 +1,4 @@
-package com.furnituremanager.controller;
+package com.furnituremanager.controller.tests;
 
 import com.furnituremanager.dao.Furniture;
 import com.furnituremanager.errormanager.EntityNotFoundException;
@@ -19,8 +19,7 @@ public class FurnitureController {
 
     @PostMapping(value = "/furniture")
     public ResponseEntity<Furniture> addFurniture(@RequestBody Furniture furniture) {
-        furnitureService.saveFurniture(furniture);
-        return new ResponseEntity<>(furniture, HttpStatus.OK);
+        return new ResponseEntity<>(furnitureService.saveFurniture(furniture), HttpStatus.OK);
     }
 
     @DeleteMapping(value="/furniture/{furnitureId}")

@@ -1,4 +1,4 @@
-package com.furnituremanager.controller;
+package com.furnituremanager.controller.tests;
 
 import com.furnituremanager.dao.LineItem;
 import com.furnituremanager.dao.Purchase;

@@ -15,8 +15,13 @@ public class FurnitureService {
 
     @Autowired
     private FurnitureRepository furnitureRepository;
-    public void saveFurniture(Furniture furniture) {
-        furnitureRepository.save(furniture);
+
+    public FurnitureService(FurnitureRepository furnitureRepository) {
+        this.furnitureRepository = furnitureRepository;
+    }
+
+    public Furniture saveFurniture(Furniture furniture) {
+        return furnitureRepository.save(furniture);
     }
 
     public void deleteFurniture(Furniture furniture) {

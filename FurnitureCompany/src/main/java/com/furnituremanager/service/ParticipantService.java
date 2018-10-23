@@ -15,7 +15,7 @@ import java.util.List;
 public class ParticipantService {
     @Autowired
     ParticipantRepository participantRepository;
-    public int startTicketSeries = 1000000;
+    private int startTicketSeries = 1000000;
 
     public List<Participant> generateRaffleTickets(Ticket player, PromotionalPeriod promotionalPeriod) {
         List<Participant> tickets = new ArrayList<>();

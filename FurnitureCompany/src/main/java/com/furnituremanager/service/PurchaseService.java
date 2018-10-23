@@ -25,6 +25,10 @@ public class PurchaseService {
     @Autowired
     LineItemService lineItemService;
 
+    public PurchaseService(PurchaseRepository purchaseRepository) {
+        this.purchaseRepository = purchaseRepository;
+    }
+
     public List<Purchase> getAllPurchasesBetweenDates(LocalDate purchaseDateStart, LocalDate purchaseDateEnd) {
         return purchaseRepository.findAllByPurchaseDateBetween(purchaseDateStart, purchaseDateEnd);
     }

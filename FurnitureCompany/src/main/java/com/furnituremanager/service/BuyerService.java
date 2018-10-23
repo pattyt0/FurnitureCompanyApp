@@ -16,6 +16,10 @@ public class BuyerService {
     @Autowired
     private BuyerRepository buyerRepository;
 
+    public BuyerService(BuyerRepository buyerRepository) {
+        this.buyerRepository = buyerRepository;
+    }
+
     public Buyer getBuyer(Long buyerId) throws EntityNotFoundException {
         Optional<Buyer> buyer = buyerRepository.findById(buyerId);
         if(!buyer.isPresent()) throw new EntityNotFoundException(Buyer.class, "id", buyerId.toString());
