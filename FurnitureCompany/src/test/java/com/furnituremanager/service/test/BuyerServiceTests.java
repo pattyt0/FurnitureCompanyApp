@@ -36,5 +36,9 @@ public class BuyerServiceTests {
         Buyer actualBuyer = buyerService.saveBuyer(juan);
 
         assertEquals(actualBuyer.getFirstName(), juan.getFirstName());
+        assertEquals(actualBuyer.getLastName(), juan.getLastName());
+        assertEquals(actualBuyer.getAddress(), juan.getAddress());
+        assertEquals(actualBuyer.getPersonalId(), juan.getPersonalId());
+        assertEquals(actualBuyer.getPhone(), juan.getPhone());
     }
 }

@@ -14,7 +14,15 @@ public class PrizeService {
     @Autowired
     PrizeRepository prizeRepository;
 
+    public PrizeService(PrizeRepository prizeRepository) {
+        this.prizeRepository = prizeRepository;
+    }
+
     public List<Prize> getPrizesByPromotionalPeriod(PromotionalPeriod promotionalPeriod) {
         return prizeRepository.findAllByPromotionalPeriodOrderByCategoryAsc(promotionalPeriod);
+    }
+
+    public Prize addPrize(Prize prize) {
+        return prizeRepository.save(prize);
     }
 }

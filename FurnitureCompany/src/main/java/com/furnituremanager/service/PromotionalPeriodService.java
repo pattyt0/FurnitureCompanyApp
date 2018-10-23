@@ -16,6 +16,10 @@ public class PromotionalPeriodService {
     @Autowired
     private PromotionalPeriodRepository promotionalPeriodRepository;
 
+    public PromotionalPeriodService(PromotionalPeriodRepository promotionalPeriodRepository) {
+        this.promotionalPeriodRepository = promotionalPeriodRepository;
+    }
+
     public PromotionalPeriod savePromotionalPeriod(PromotionalPeriod promotionalPeriod) {
         //verify promotional period fields
         //if error found send custom error message
