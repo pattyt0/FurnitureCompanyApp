@@ -8,8 +8,6 @@ import com.furnituremanager.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -21,14 +19,12 @@ public class LineItemController {
     private PurchaseService purchaseService;
 
     @PostMapping(value = "/purchases/{purchaseId}/lineItems")
-    public ResponseEntity<LineItem> addLineItem(@PathVariable Long purchaseId, @RequestBody LineItem lineItem) throws EntityNotFoundException {
+    public LineItem addLineItem(@PathVariable Long purchaseId, @RequestBody LineItem lineItem) throws EntityNotFoundException {
         Purchase purchase = purchaseService.getPurchase(purchaseId);
         if(purchase != null){
-            lineItemService.saveLineItem(lineItem);
-            return new ResponseEntity<>(lineItem, HttpStatus.OK);
-        }else{
-            return ResponseEntity.notFound().build();
+            return lineItemService.saveLineItem(lineItem);
         }
+        throw new EntityNotFoundException(Purchase.class, "id", purchase.getPurchaseId().toString());
     }
 
     @DeleteMapping(value="/purchases/{purchaseId}/lineItems/{lineItemId}")
