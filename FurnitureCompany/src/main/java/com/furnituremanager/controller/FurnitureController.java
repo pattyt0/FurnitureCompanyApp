@@ -1,4 +1,4 @@
-package com.furnituremanager.controller.tests;
+package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.Furniture;
 import com.furnituremanager.errormanager.EntityNotFoundException;

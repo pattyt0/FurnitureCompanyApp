@@ -1,4 +1,4 @@
-package com.furnituremanager.controller.tests;
+package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.Buyer;
 import com.furnituremanager.errormanager.EntityNotFoundException;
@@ -41,6 +41,11 @@ public class BuyerController {
     @GetMapping(value="/buyers")
     public Page<Buyer> listAllBuyers(Pageable pageable) {
         return buyerService.getAllBuyers(pageable);
+    }
+
+    @GetMapping(value="/buyers/{buyerId}")
+    public Buyer getBuyer(@PathVariable Long buyerId) throws EntityNotFoundException {
+        return buyerService.getBuyer(buyerId);
     }
 
 }
