@@ -45,4 +45,6 @@ public class PrizeServiceTests {
         assertEquals(actualPrize.getCategory(), car.getCategory());
         assertEquals(actualPrize.getPromotionalPeriod().getPromotionalPeriodId(), car.getPromotionalPeriod().getPromotionalPeriodId());
     }
+
+
 }

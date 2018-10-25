@@ -1,21 +1,20 @@
 package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.*;
-import com.furnituremanager.dao.repository.BuyerRepository;
 import com.furnituremanager.errormanager.EntityNotFoundException;
-import com.furnituremanager.service.*;
-import org.apache.http.client.utils.URIBuilder;
+import com.furnituremanager.service.ParticipantService;
+import com.furnituremanager.service.PrizeService;
+import com.furnituremanager.service.PromotionalPeriodService;
+import com.furnituremanager.service.PurchaseService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 
-import javax.servlet.http.Part;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,12 +27,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PromotionalPeriodControllerTests {
 
-    @Mock
-    RestTemplate restTemplate;
     @Mock
     private PromotionalPeriodService promotionalPeriodService;
     @Mock
@@ -48,11 +46,7 @@ public class PromotionalPeriodControllerTests {
 
     @Before
     public void init() {
-        restTemplate = new RestTemplate();
         MockitoAnnotations.initMocks(this);
-
-//        buyerRepository = Mockito.mock(BuyerRepository.class);
-//        buyerService = new BuyerService(buyerRepository);
     }
 
     /**
@@ -133,7 +127,7 @@ public class PromotionalPeriodControllerTests {
 
         Participant participantPedro = new Participant();
         participantPedro.setParticipantId((long) 100);
-        participantPedro.setBuyer(juan);
+        participantPedro.setBuyer(pedro);
         participantPedro.setTicketNumber(UUID.randomUUID().toString());
         participantPedro.setPromotionalPeriod(promotionalPeriodTest);
 
@@ -141,40 +135,65 @@ public class PromotionalPeriodControllerTests {
         participantsTickets.add(participantJuan);
         participantsTickets.add(participantPedro);
 
-//        URI uriWinners = new URIBuilder()
-//                .setScheme("http")
-//                .setHost("localhost")
-//                .setPort(1234)
-//                .setPath("/api/promotionalPeriods/"+String.valueOf(promotionalPeriodTest.getPromotionalPeriodId())+"/winners")
-//                .build();
-
-
         when(promotionalPeriodService.getPromotionalPeriod(anyLong())).thenReturn(promotionalPeriodTest);
         when(participantService.findAllByPromotionalPeriod(any(PromotionalPeriod.class))).thenReturn(Collections.emptyList());
         when(purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriodTest.getPromotionStart(), promotionalPeriodTest.getPromotionEnd())).thenReturn(participants);
         when(prizeService.getPrizesByPromotionalPeriod(promotionalPeriodTest)).thenReturn(prizes);
-//        when(participantService.generateRaffleTickets(any(Ticket.class), any(PromotionalPeriod.class))).thenCallRealMethod().;//.thenReturn(participantsTickets);//it does not interact with DB
         doCallRealMethod().when(participantService).generateRaffleTickets(any(Ticket.class), any(PromotionalPeriod.class));
-//        when(participantService.raffleWinnersPerPrize(participantsTickets, prizes)).thenCallRealMethod();//.thenReturn(winners);//it does not interact with DB
         doCallRealMethod().when(participantService).raffleWinnersPerPrize(anyList(), eq(prizes));
         doNothing().when(participantService).saveAllParticipants(any());
 
         List<Participant> results = promotionalPeriodController.generateWinnersByPromotionalPeriod(promotionalPeriodTest.getPromotionalPeriodId());
         assertEquals(results.size(), prizes.size());
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//
-//        List<Participant> personList = new ArrayList<Participant>();
-//        HttpEntity<Object> requestEntity = new HttpEntity<Object>(personList,headers);
+    }
 
-//        ResponseEntity<List<Participant>> response = restTemplate.exchange(
-//                uriWinners,
-//                HttpMethod.PUT,
-//                requestEntity,
-//                new ParameterizedTypeReference<List<Participant>>() {});
-//        List<Participant> response;
-//        response = restTemplate.put(uriWinners,List<Participant>);
-//        List<Participant> winnersResult = response.getBody();
-//        assertEquals(winnersResult.size(), prizes.size());
+    @Test
+    public void getWinnersOfPromotionalPeriod() throws EntityNotFoundException {
+        PromotionalPeriod promotionalPeriodTest = new PromotionalPeriod();
+        promotionalPeriodTest.setPromotionalPeriodId((long) 100);
+        promotionalPeriodTest.setPromotionStart(LocalDate.of(2018,11,1));
+        promotionalPeriodTest.setPromotionEnd(LocalDate.of(2018,11,5));
+        promotionalPeriodTest.setTitle("November rain offers");
+
+        Buyer juan = new Buyer();
+        juan.setBuyerId((long)1);
+        juan.setFirstName("juan");
+        juan.setLastName("peres");
+        juan.setAddress("nn");
+        juan.setPhone("123456");
+        juan.setPersonalId("111111cb");
+
+        Buyer pedro = new Buyer();
+        pedro.setBuyerId((long)2);
+        pedro.setFirstName("pedro");
+        pedro.setLastName("peres");
+        pedro.setAddress("nn");
+        pedro.setPhone("123456");
+        pedro.setPersonalId("111111cb");
+
+        Prize car = new Prize();
+        car.setPrizeId((long)100);
+        car.setName("Car Toyota");
+        car.setCategory("A");
+        car.setPromotionalPeriod(promotionalPeriodTest);
+
+        Participant participantJuan = new Participant();
+        participantJuan.setParticipantId((long) 100);
+        participantJuan.setBuyer(juan);
+        participantJuan.setTicketNumber(UUID.randomUUID().toString());
+        participantJuan.setPromotionalPeriod(promotionalPeriodTest);
+        participantJuan.setPrize(car);
+
+        List<Participant> participantsOfPromPeriod = new ArrayList<>();
+        participantsOfPromPeriod.add(participantJuan);
+
+        List<Prize> prizes = new ArrayList<>();
+        prizes.add(car);
+
+        when(promotionalPeriodService.getPromotionalPeriod(promotionalPeriodTest.getPromotionalPeriodId())).thenReturn(promotionalPeriodTest);
+        when(participantService.getParticipantsByPromotionalPeriodAndHasWon(promotionalPeriodTest)).thenReturn(participantsOfPromPeriod);
+
+        List<Participant> results = promotionalPeriodController.getWinnersByPromotionalPeriod(promotionalPeriodTest.getPromotionalPeriodId());
+        assertEquals(results.size(), prizes.size());
     }
 }

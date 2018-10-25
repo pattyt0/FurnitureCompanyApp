@@ -121,13 +121,14 @@ public class PromotionalPeriodController {
     }
 
     @GetMapping(value= "/promotionalPeriods/{promotionalPeriodId}/winners")
-    public ResponseEntity<Object> getWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId) throws EntityNotFoundException {
+    public List<Participant> getWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId) throws EntityNotFoundException {
         PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
 
         if(promotionalPeriod != null) {
-            return new ResponseEntity<>(participantService.getParticipantsByPromotionalPeriodAndHasWon(promotionalPeriod), HttpStatus.OK);
+            return participantService.getParticipantsByPromotionalPeriodAndHasWon(promotionalPeriod);
         }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
+            throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriod.getPromotionalPeriodId().toString());
         }
     }
 }
