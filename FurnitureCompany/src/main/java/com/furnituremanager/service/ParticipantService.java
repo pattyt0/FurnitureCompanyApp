@@ -17,6 +17,12 @@ public class ParticipantService {
     ParticipantRepository participantRepository;
     private int startTicketSeries = 1000000;
 
+    /**
+     * Read player ticket number to generate ticket choices for raffle
+     * @param player
+     * @param promotionalPeriod
+     * @return
+     */
     public List<Participant> generateRaffleTickets(Ticket player, PromotionalPeriod promotionalPeriod) {
         List<Participant> tickets = new ArrayList<>();
 
