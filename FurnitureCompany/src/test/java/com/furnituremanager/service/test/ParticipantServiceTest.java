@@ -47,7 +47,6 @@ public class ParticipantServiceTest {
         juan.setPhone("123456");
         juan.setPersonalId("111111cb");
 
-        //doCallRealMethod().when(participantService).generateRaffleTickets(any(Ticket.class), any(PromotionalPeriod .class));
         Ticket player = new Ticket();
         player.setBuyer(juan);
         player.setPurchaseDate(LocalDate.of(2018,11,01));
@@ -59,7 +58,6 @@ public class ParticipantServiceTest {
 
     @Test
     public void raffleWinnersPerPrize() {
-        //doCallRealMethod().when(participantService).raffleWinnersPerPrize(any(Ticket.class), any(PromotionalPeriod .class));
         PromotionalPeriod promotionalPeriodTest = new PromotionalPeriod();
         promotionalPeriodTest.setPromotionalPeriodId((long) 100);
         promotionalPeriodTest.setPromotionStart(LocalDate.of(2018,11,1));
