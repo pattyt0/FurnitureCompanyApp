@@ -88,12 +88,13 @@ public class PromotionalPeriodController {
      * @return
      */
     @PutMapping(value= "/promotionalPeriods/{promotionalPeriodId}/winners")
-    public ResponseEntity<Object> generateWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId) throws EntityNotFoundException {
+    public List<Participant> generateWinnersByPromotionalPeriod(@PathVariable Long promotionalPeriodId) throws EntityNotFoundException {
         PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
 
         //TODO: "findAllByPromotionalPeriod(promotionalPeriod).isEmpty()" replace with promotional period column
         if(promotionalPeriod != null && !participantService.findAllByPromotionalPeriod(promotionalPeriod).isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period already run raffle.");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period already run raffle.");
+            throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString());
         }
 
         if(promotionalPeriod != null) {
@@ -109,11 +110,13 @@ public class PromotionalPeriodController {
                 List<Participant> winners = participantService.raffleWinnersPerPrize(raffleTickets, prizes);
                 participantService.saveAllParticipants(raffleTickets);
 
-                return new ResponseEntity<>(winners, HttpStatus.OK);
+                return winners;
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Prizes.");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Prizes.");
+            throw new EntityNotFoundException(Prize.class, "No Prizes", null);
         }else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Promotional Period does not exists.");
+            throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString());
         }
     }
 
