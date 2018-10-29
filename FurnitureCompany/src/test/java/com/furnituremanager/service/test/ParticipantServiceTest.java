@@ -1,13 +1,11 @@
 package com.furnituremanager.service.test;
 
 import com.furnituremanager.dao.*;
-import com.furnituremanager.dao.repository.ParticipantRepository;
 import com.furnituremanager.service.ParticipantService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -21,8 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ParticipantServiceTest {
-    @Mock
-    private ParticipantRepository participantRepository;
     @Spy
     @InjectMocks
     private ParticipantService participantService;
