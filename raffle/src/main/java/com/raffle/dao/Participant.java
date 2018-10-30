@@ -12,7 +12,7 @@ public class Participant {
     @Column(name="participant_id")
     private Long participantId;
 
-    @JoinColumn(name = "buyer_id")
+    @Column(name = "buyer_id")
     private Long buyerId;
 
     @ManyToOne

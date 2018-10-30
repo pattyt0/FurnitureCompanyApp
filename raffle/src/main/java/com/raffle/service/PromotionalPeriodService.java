@@ -21,8 +21,7 @@ public class PromotionalPeriodService {
     }
 
     public PromotionalPeriod savePromotionalPeriod(PromotionalPeriod promotionalPeriod) {
-        //verify promotional period fields
-        //if error found send custom error message
+        //TODO: verify promotional period fields, if error found send custom error message
         return promotionalPeriodRepository.save(promotionalPeriod);
     }
 

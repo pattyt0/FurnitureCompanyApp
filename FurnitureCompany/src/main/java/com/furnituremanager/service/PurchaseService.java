@@ -74,4 +74,16 @@ public class PurchaseService {
     public Page<Purchase> getPurchasesByBuyerAndPurchaseDateBetween(Buyer buyer, LocalDate endDate, LocalDate startDate, Pageable pageable) {
         return purchaseRepository.findAllByBuyerAndPurchaseDateBetween(buyer, endDate, startDate, pageable);
     }
+
+    public List<Purchase> getPurchasesByDate(LocalDate purchaseDateStart) {
+        return purchaseRepository.findAllByPurchaseDate(purchaseDateStart);
+    }
+
+    public List<Purchase> getPurchasesByPurchaseDateBetween(LocalDate purchaseDateStart, LocalDate purchaseDateEnd) {
+        return purchaseRepository.findAllByPurchaseDateBetween(purchaseDateStart, purchaseDateEnd);
+    }
+
+    public List<Purchase> getAllPurchases() {
+        return purchaseRepository.findAll();
+    }
 }

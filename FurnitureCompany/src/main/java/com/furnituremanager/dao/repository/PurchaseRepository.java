@@ -14,4 +14,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     List<Purchase> findAllByPurchaseDateBetween(LocalDate purchaseDateStart, LocalDate purchaseDateEnd);
     Page<Purchase> findAllByBuyerAndPurchaseDate(Buyer buyer, LocalDate startDate, Pageable pageable);
     Page<Purchase> findAllByBuyer(Buyer buyer, Pageable pageable);
+
+    List<Purchase> findAllByPurchaseDate(LocalDate purchaseDateStart);
 }

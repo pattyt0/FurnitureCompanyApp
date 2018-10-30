@@ -1,4 +1,4 @@
-//package com.raffle.controller.test;
+package com.raffle.controller.test;
 //
 //import com.furnituremanager.service.PurchaseService;
 //import com.raffle.dao.Participant;

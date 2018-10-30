@@ -1,9 +1,13 @@
-package com.raffle.controller.test;
+package com.raffle.controller;
 
+import com.raffle.client.BuyerClient;
+import com.raffle.client.PurchaseClient;
 import com.raffle.dao.Participant;
 import com.raffle.dao.Prize;
 import com.raffle.dao.PromotionalPeriod;
 import com.raffle.errormanager.EntityNotFoundException;
+import com.raffle.model.Buyer;
+import com.raffle.model.Ticket;
 import com.raffle.service.ParticipantService;
 import com.raffle.service.PrizeService;
 import com.raffle.service.PromotionalPeriodService;
@@ -13,8 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.Ticket;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +29,11 @@ public class PromotionalPeriodController {
     @Autowired
     private PromotionalPeriodService promotionalPeriodService;
     @Autowired
-    private BuyerService buyerService;
+    BuyerClient buyerClient;
     @Autowired
     private ParticipantService participantService;
     @Autowired
-    private PurchaseService purchaseService;
+    PurchaseClient purchaseClient;
     @Autowired
     private PrizeService prizeService;
 
@@ -61,15 +65,14 @@ public class PromotionalPeriodController {
      */
     @GetMapping(value= "/promotionalPeriods/{promotionalPeriodId}/Buyers/{buyerId}/tickets")
     public ResponseEntity<Object> getPromotionalPeriodTicketsByBuyer(@PathVariable Long promotionalPeriodId, @PathVariable Long buyerId) throws EntityNotFoundException {
-//        PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
-//
-//        if(promotionalPeriod == null){ throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString()); }
-//        Buyer buyer = buyerService.getBuyer(buyerId);
-//
-//        if(buyer == null){ throw new EntityNotFoundException(Buyer.class, "id", buyerId.toString()); }
-//        List<Ticket> promotionalPeriodTickets = purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriod.getPromotionStart(), promotionalPeriod.getPromotionEnd());
-//
-//        return new ResponseEntity<>(promotionalPeriodTickets, HttpStatus.OK);
+        PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
+
+        if(promotionalPeriod == null){ throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString()); }
+        Buyer buyer = buyerClient.getBuyer(buyerId);
+
+        if(buyer == null){ throw new EntityNotFoundException(Buyer.class, "id", buyerId.toString()); }
+        List<Ticket> promotionalPeriodTickets = purchaseClient.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriod.getPromotionStart().format(DateTimeFormatter.ISO_LOCAL_DATE), promotionalPeriod.getPromotionEnd().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        return new ResponseEntity<>(promotionalPeriodTickets, HttpStatus.OK);
     }
 
     /**
@@ -79,11 +82,11 @@ public class PromotionalPeriodController {
      */
     @GetMapping(value= "/promotionalPeriods/{promotionalPeriodId}/tickets")
     public ResponseEntity<Object> getPromotionalPeriodTickets(@PathVariable Long promotionalPeriodId) throws EntityNotFoundException {
-//        PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
-//        if(promotionalPeriod == null){ throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString()); }
-//
-//        List<Participant> tickets = participantService.findAllByPromotionalPeriod(promotionalPeriod);
-//        return new ResponseEntity<>(tickets, HttpStatus.OK);
+        PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
+        if(promotionalPeriod == null){ throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString()); }
+
+        List<Participant> tickets = participantService.findAllByPromotionalPeriod(promotionalPeriod);
+        return new ResponseEntity<>(tickets, HttpStatus.OK);
     }
 
     /**
@@ -97,13 +100,15 @@ public class PromotionalPeriodController {
         PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
 
         //TODO: "findAllByPromotionalPeriod(promotionalPeriod).isEmpty()" replace with promotional period column
-        if(promotionalPeriod != null && !participantService.findAllByPromotionalPeriod(promotionalPeriod).isEmpty()){
-            throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString());
-        }
-
         if(promotionalPeriod != null) {
+            List<Participant> participantsPastPeriod = participantService.findAllByPromotionalPeriod(promotionalPeriod);
+            if(!participantsPastPeriod.isEmpty()){
+                //TODO: return Custom error message pointing out raffle was already run for this period
+                throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString());
+            }
+
             //get list of participants for promotional period
-            List<Ticket> participants = purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriod.getPromotionStart(), promotionalPeriod.getPromotionEnd());
+            List<Ticket> participants = purchaseClient.getPurchasesBetweenPurchaseDateRageWithRaffleChances(promotionalPeriod.getPromotionStart().format(DateTimeFormatter.ISO_LOCAL_DATE), promotionalPeriod.getPromotionEnd().format(DateTimeFormatter.ISO_LOCAL_DATE));
 
             List<Prize> prizes = prizeService.getPrizesByPromotionalPeriod(promotionalPeriod);
             if(!prizes.isEmpty()){

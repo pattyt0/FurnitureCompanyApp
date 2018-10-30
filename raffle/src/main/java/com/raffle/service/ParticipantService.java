@@ -1,12 +1,12 @@
 package com.raffle.service;
 
-import com.furnituremanager.dao.Prize;
 import com.raffle.dao.Participant;
+import com.raffle.dao.Prize;
 import com.raffle.dao.PromotionalPeriod;
+import com.raffle.model.Ticket;
 import com.raffle.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.security.krb5.internal.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class ParticipantService {
         Participant playerTicket = null;
         for (int i = 0; i < player.getNumberOfTickets(); i++) {
             playerTicket = new Participant();
-            playerTicket.setBuyer(player.getBuyer());
+            playerTicket.setBuyer(player.getBuyer().getBuyerId());
             playerTicket.setTicketNumber(promotionalPeriod.getTitle() + startTicketSeries);
             playerTicket.setPromotionalPeriod(promotionalPeriod);
             tickets.add(playerTicket);

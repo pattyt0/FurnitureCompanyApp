@@ -1,4 +1,4 @@
-package com.raffle.controller.test;
+package com.raffle.controller;
 
 import com.raffle.dao.Prize;
 import com.raffle.dao.PromotionalPeriod;
@@ -6,12 +6,14 @@ import com.raffle.errormanager.EntityNotFoundException;
 import com.raffle.service.PrizeService;
 import com.raffle.service.PromotionalPeriodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@EnableDiscoveryClient
 @RequestMapping(value="/promotionalPeriods/{promotionalPeriodId}/*")
 public class PrizeController {
     @Autowired

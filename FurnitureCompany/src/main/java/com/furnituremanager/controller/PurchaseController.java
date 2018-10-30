@@ -16,6 +16,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -70,6 +72,26 @@ public class PurchaseController {
         }else{
             return ResponseEntity.notFound().build();
         }
+    }
 
+    @GetMapping(value="/purchases")
+    public List<Purchase> listAllPurchasesByPurchaseDateBetween(@RequestParam(value="from", required = false) String startDate, @RequestParam(value="to", required = false) String endDate) throws EntityNotFoundException {
+        LocalDate purchaseDateStart = startDate!=null? LocalDate.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE):null;
+        LocalDate purchaseDateEnd = endDate!=null?LocalDate.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE):null;
+
+        if(purchaseDateStart != null || purchaseDateEnd !=null){
+            //TODO: validate purchaseDateStart and purchaseDateEnd are dates
+            if(purchaseDateStart.equals(purchaseDateEnd) || purchaseDateEnd==null){
+                return purchaseService.getPurchasesByDate(purchaseDateStart);
+            }
+
+            if(purchaseDateStart.isAfter(purchaseDateEnd)){
+                return purchaseService.getPurchasesByPurchaseDateBetween(purchaseDateEnd, purchaseDateStart);
+            }else {
+                //TODO:return custom error to ensure end date is after startDate
+                return purchaseService.getPurchasesByPurchaseDateBetween(purchaseDateStart, purchaseDateEnd);
+            }
+        }
+        return purchaseService.getAllPurchases();
     }
 }

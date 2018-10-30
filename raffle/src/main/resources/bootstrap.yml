@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: raffleManagerMicroservice
+  profiles:
+    active: default
+  cloud:
+    config:
+      uri: http://localhost:8888
+      enabled: true
