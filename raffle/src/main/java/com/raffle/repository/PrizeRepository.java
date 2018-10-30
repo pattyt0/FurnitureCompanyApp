@@ -1,7 +1,7 @@
-package com.furnituremanager.dao.repository;
+package com.raffle.repository;
 
-import com.furnituremanager.dao.PromotionalPeriod;
-import com.furnituremanager.dao.Prize;
+import com.raffle.dao.Prize;
+import com.raffle.dao.PromotionalPeriod;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

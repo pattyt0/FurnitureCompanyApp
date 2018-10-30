@@ -1,8 +1,8 @@
-package com.furnituremanager.service;
+package com.raffle.service;
 
-import com.furnituremanager.dao.PromotionalPeriod;
-import com.furnituremanager.dao.repository.PromotionalPeriodRepository;
-import com.furnituremanager.errormanager.EntityNotFoundException;
+import com.raffle.dao.PromotionalPeriod;
+import com.raffle.errormanager.EntityNotFoundException;
+import com.raffle.repository.PromotionalPeriodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

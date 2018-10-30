@@ -1,4 +1,4 @@
-package com.furnituremanager.dao;
+package com.raffle.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;

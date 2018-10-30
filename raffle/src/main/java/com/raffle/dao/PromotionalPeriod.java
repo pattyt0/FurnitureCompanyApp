@@ -1,6 +1,6 @@
-package com.furnituremanager.dao;
+package com.raffle.dao;
 
-import com.Application;
+import com.raffle.RaffleApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @EntityScan(
-        basePackageClasses = {Application.class, Jsr310JpaConverters.class}
+        basePackageClasses = {RaffleApplication.class, Jsr310JpaConverters.class}
 )
 @Entity
 @Table(name = "promotional_period")

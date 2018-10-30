@@ -1,8 +1,8 @@
-package com.furnituremanager.dao.repository;
+package com.raffle.repository;
 
 import com.furnituremanager.dao.Buyer;
-import com.furnituremanager.dao.Participant;
-import com.furnituremanager.dao.PromotionalPeriod;
+import com.raffle.dao.Participant;
+import com.raffle.dao.PromotionalPeriod;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.furnituremanager.service;
+package com.raffle.service;
 
-import com.furnituremanager.dao.repository.PrizeRepository;
-import com.furnituremanager.dao.PromotionalPeriod;
-import com.furnituremanager.dao.Prize;
+import com.raffle.dao.Prize;
+import com.raffle.dao.PromotionalPeriod;
+import com.raffle.repository.PrizeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

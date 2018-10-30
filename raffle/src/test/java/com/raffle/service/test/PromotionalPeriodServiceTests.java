@@ -1,15 +1,15 @@
-package com.furnituremanager.service.test;
+package com.raffle.service.test;
 
-import com.furnituremanager.dao.PromotionalPeriod;
-import com.furnituremanager.dao.repository.PromotionalPeriodRepository;
-import com.furnituremanager.service.PromotionalPeriodService;
+import com.raffle.dao.PromotionalPeriod;
+import com.raffle.repository.PromotionalPeriodRepository;
+import com.raffle.service.PromotionalPeriodService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalDate;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 public class PromotionalPeriodServiceTests {

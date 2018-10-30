@@ -1,7 +1,8 @@
-package com.furnituremanager.service.test;
+package com.raffle.service.test;
 
 import com.furnituremanager.dao.*;
 import com.furnituremanager.service.ParticipantService;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +50,7 @@ public class ParticipantServiceTest {
         player.setNumberOfTickets(2);
 
         List<Participant> ticketsForPlayer = participantService.generateRaffleTickets(player, promotionalPeriodTest);
-        assertEquals(ticketsForPlayer.size(), player.getNumberOfTickets());
+        Assert.assertEquals(ticketsForPlayer.size(), player.getNumberOfTickets());
     }
 
     @Test

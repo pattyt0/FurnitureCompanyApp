@@ -1,4 +1,4 @@
-package com.furnituremanager.dao;
+package com.raffle.dao;
 
 import javax.persistence.*;
 
@@ -12,9 +12,8 @@ public class Participant {
     @Column(name="participant_id")
     private Long participantId;
 
-    @ManyToOne
     @JoinColumn(name = "buyer_id")
-    private Buyer buyer;
+    private Long buyerId;
 
     @ManyToOne
     @JoinColumn(name = "promotional_period_id")
@@ -49,12 +48,12 @@ public class Participant {
         this.promotionalPeriod = promotionalPeriod;
     }
 
-    public Buyer getBuyer() {
-        return buyer;
+    public Long getBuyer() {
+        return buyerId;
     }
 
-    public void setBuyer(Buyer buyer) {
-        this.buyer = buyer;
+    public void setBuyer(Long buyer) {
+        this.buyerId = buyer;
     }
 
     public boolean isWinner() {

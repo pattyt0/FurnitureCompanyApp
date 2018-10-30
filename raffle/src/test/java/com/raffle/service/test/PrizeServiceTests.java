@@ -1,4 +1,4 @@
-package com.furnituremanager.service.test;
+package com.raffle.service.test;
 
 import com.furnituremanager.dao.Prize;
 import com.furnituremanager.dao.PromotionalPeriod;

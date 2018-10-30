@@ -1,12 +1,12 @@
-package com.furnituremanager.service;
+package com.raffle.service;
 
-import com.furnituremanager.dao.Participant;
 import com.furnituremanager.dao.Prize;
-import com.furnituremanager.dao.PromotionalPeriod;
-import com.furnituremanager.dao.Ticket;
-import com.furnituremanager.dao.repository.ParticipantRepository;
+import com.raffle.dao.Participant;
+import com.raffle.dao.PromotionalPeriod;
+import com.raffle.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.security.krb5.internal.Ticket;
 
 import java.util.ArrayList;
 import java.util.List;
