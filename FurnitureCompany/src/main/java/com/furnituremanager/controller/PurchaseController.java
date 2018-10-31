@@ -2,6 +2,7 @@ package com.furnituremanager.controller;
 
 import com.furnituremanager.dao.Buyer;
 import com.furnituremanager.dao.Purchase;
+import com.furnituremanager.dao.Ticket;
 import com.furnituremanager.errormanager.EntityNotFoundException;
 import com.furnituremanager.service.BuyerService;
 import com.furnituremanager.service.PurchaseService;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -75,7 +77,7 @@ public class PurchaseController {
     }
 
     @GetMapping(value="/purchases")
-    public List<Purchase> listAllPurchasesByPurchaseDateBetween(@RequestParam(value="from", required = false) String startDate, @RequestParam(value="to", required = false) String endDate) throws EntityNotFoundException {
+    public List<Purchase> listAllPurchasesByPurchaseDateBetween(@RequestParam(value="from", required = false) String startDate, @RequestParam(value="to", required = false) String endDate) {
         LocalDate purchaseDateStart = startDate!=null? LocalDate.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE):null;
         LocalDate purchaseDateEnd = endDate!=null?LocalDate.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE):null;
 
@@ -93,5 +95,26 @@ public class PurchaseController {
             }
         }
         return purchaseService.getAllPurchases();
+    }
+
+    @GetMapping(value="/purchases/tickets")
+    public List<Ticket> listAllPurchasesByPurchaseDateBetweenAndRaffleChances(@RequestParam(value="from", required = false) String startDate, @RequestParam(value="to", required = false) String endDate) {
+        LocalDate purchaseDateStart = startDate!=null? LocalDate.parse(startDate, DateTimeFormatter.ISO_LOCAL_DATE):null;
+        LocalDate purchaseDateEnd = endDate!=null?LocalDate.parse(endDate, DateTimeFormatter.ISO_LOCAL_DATE):null;
+
+        if(purchaseDateStart != null || purchaseDateEnd !=null){
+            //TODO: validate purchaseDateStart and purchaseDateEnd are dates
+            if(purchaseDateStart.equals(purchaseDateEnd) || purchaseDateEnd==null){
+                return purchaseService.getPurchasesWithRaffleChances(purchaseDateStart);
+            }
+
+            if(purchaseDateStart.isAfter(purchaseDateEnd)){
+                return purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(purchaseDateEnd, purchaseDateStart);
+            }else {
+                //TODO:return custom error to ensure end date is after startDate
+                return purchaseService.getPurchasesBetweenPurchaseDateRageWithRaffleChances(purchaseDateStart, purchaseDateEnd);
+            }
+        }
+        return Collections.emptyList();
     }
 }

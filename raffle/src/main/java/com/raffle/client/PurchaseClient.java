@@ -12,7 +12,7 @@ import java.util.List;
 public interface PurchaseClient {
     @RequestMapping(
             method= RequestMethod.GET,
-            value="/api/purchases",
+            value="/api/purchases/tickets",
             consumes="application/json")
     List<Ticket> getPurchasesBetweenPurchaseDateRageWithRaffleChances(@RequestParam(value="from", required = false) String promotionStart, @RequestParam(value="to", required = false) String promotionEnd);
 }

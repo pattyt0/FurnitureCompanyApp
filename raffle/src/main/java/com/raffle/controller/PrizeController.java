@@ -26,6 +26,7 @@ public class PrizeController {
         PromotionalPeriod promotionalPeriod = promotionalPeriodService.getPromotionalPeriod(promotionalPeriodId);
         if(promotionalPeriod != null)
         {
+            prize.setPromotionalPeriod(promotionalPeriod);
             return prizeService.addPrize(prize);
         }
         throw new EntityNotFoundException(PromotionalPeriod.class, "id", promotionalPeriodId.toString());

@@ -40,13 +40,14 @@ public class PurchaseService {
         return getPurchasesBetweenPurchaseDateRageWithRaffleChances(rangeStart, rangeEnd);
     }
 
+    public List<Ticket> getPurchasesWithRaffleChances(LocalDate purchaseDateStart) {
+        List<Purchase> purchasesInTimeRange = purchaseRepository.findAllByPurchaseDate(purchaseDateStart);
+        return lineItemService.fillRaffleTicketsChance(purchasesInTimeRange);
+    }
+
     public List<Ticket> getPurchasesBetweenPurchaseDateRageWithRaffleChances(LocalDate purchaseDateStart, LocalDate purchaseDateEnd) {
-
         List<Purchase> purchasesInTimeRange = purchaseRepository.findAllByPurchaseDateBetween(purchaseDateStart, purchaseDateEnd);
-
-        List<Ticket> raffleTickets = lineItemService.fillRaffleTicketsChance(purchasesInTimeRange);
-
-        return raffleTickets;
+        return lineItemService.fillRaffleTicketsChance(purchasesInTimeRange);
     }
 
     public Purchase getPurchase(Long purchaseId) throws EntityNotFoundException {

@@ -21,10 +21,10 @@ zuul:
       url: http://localhost:1234/api/furniture
     purchases:
       path: /purchases/**
-      url: http://localhost:1234/api/purchases
+      url: http://localhost:4567/api/purchases
     PromotionalPeriods:
       path: /promotionalPeriods/**
-      url: http://localhost:1234/api/promotionalPeriods
+      url: http://localhost:4567/api/promotionalPeriods
 
 management:
   endpoints:

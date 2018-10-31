@@ -1,7 +1,8 @@
 ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/furniture_company
+    #url: jdbc:postgresql://localhost:5432/furniture_company
+    url: jdbc:postgresql://localhost:5432/raffle_manager
     username: postgres
     password: p0stgresit0
     # The SQL dialect makes Hibernate generate better SQL for the chosen database even though it is DB agnostic

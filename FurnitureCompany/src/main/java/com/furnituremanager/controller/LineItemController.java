@@ -22,6 +22,7 @@ public class LineItemController {
     public LineItem addLineItem(@PathVariable Long purchaseId, @RequestBody LineItem lineItem) throws EntityNotFoundException {
         Purchase purchase = purchaseService.getPurchase(purchaseId);
         if(purchase != null){
+            lineItem.setPurchase(purchase);
             return lineItemService.saveLineItem(lineItem);
         }
         throw new EntityNotFoundException(Purchase.class, "id", purchase.getPurchaseId().toString());
