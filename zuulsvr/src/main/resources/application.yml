@@ -22,6 +22,9 @@ zuul:
     purchases:
       path: /purchases/**
       url: http://localhost:4567/api/purchases
+    tickets:
+      path: /tickets**
+      url: http://localhost:4567/api/purchases
     PromotionalPeriods:
       path: /promotionalPeriods/**
       url: http://localhost:4567/api/promotionalPeriods
